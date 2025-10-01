@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+body,*{
+    font-family: "Bebas Neue";
+    color: whitesmoke;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    /* grid layout */
+    display: grid;
+    place-items: center;
+    /* position fixed - klassen "show" viser pages */
+    position: fixed;
+    left:-100vw;
+    transition: 1s ease-in-out all;
+}
+
+.menu-wrapper {
+    position: fixed;
+    width: fit-content;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.burger-icon {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    cursor: pointer;
+    font-size: 2rem;
+    z-index: 4;
+    color: black;
+}
+
+.menu-wrapper:has(.sidebar:hover) .burger-icon, .burger-icon:hover{
+    color: whitesmoke;
+}
+
+.sidebar {
+    position: relative;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    min-width: 15rem;
+    background-color:#12163d;
+    color: white;
+    padding: 4rem 1rem;
+    z-index: 3;
+    transition: left 0.3s ease-in-out,
+        box-shadow 0.3s ease;
+}
+
+.burger-icon:hover + .sidebar, .sidebar:hover {
+    left: 0;
+    box-shadow: 0 0 20px 5px #12163d;
+}
+
+.sidebar a {
+    font-size: 2rem;
+    display: block;
+    cursor: pointer;
+    margin: 1.2rem 0;
+    opacity: 0.6;
+    transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out, filter 0.2s ease-in-out;
+}
+
+.sidebar a:hover{
+    opacity:1;
+    transform: translateX(1rem);
+    filter: drop-shadow(0 0 10px )
+}
+
+.show {
+    left:0;
+}
+
+/*All div's inside pages are treated as full width grids*/
+.page div {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+h1{
+   /* font-weight:500;*/
+    /*font-size: 6rem;*/
+}
+#page2{
+    grid-template-rows: 1fr 3fr;
+}
+
+#page2 .top{
+    background-color: #12314a;
+}
+#page2 .bottom{
+    background-image: url(./assets/water.jpg);
+    background-size: cover
+}
+
+#page3{
+    grid-template-columns: 2fr 3fr;
+
+}
+#page3 .left{
+    grid-template-rows: 1fr 1fr;
+}
+#page3 .left .topleft{
+    background-color: teal;
+}
+#page3 .left .bottomleft{
+    background-color: white;
+}
+#page3 .right{
+    background-color: #12314a;
+}
+#page3 .right .box{
+    height: 60%;
+    width: 70%;
+    background-color: #12163d;
+    grid-template-rows: 1fr 6fr;
+h1{
+    font-size: 2rem;
+}
+}
+#page3 .right .box .bottom{
+    background-image: url(./assets/water2.jpg);
+    background-size: cover;
+}
+#page4{
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+#page4 .col:nth-child(1){
+background-color: springgreen;
+}
+#page4 .col:nth-child(2){
+background-color: red;
+}
+#page4 .col:nth-child(3){
+background-color: springgreen;
+}
+#page4 .col:nth-child(4){
+background-color: springgreen;
+}
+#page5{
+
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    font-size: 1rem;
+    font-weight: 20;
+
+}
+#page5 .frac1{
+    grid-template-rows: 1fr 3fr;
+    background-color: palevioletred;
+}
+#page5 .frac1 .bottom{
+    background-image: url(./assets/kitty.jpg);
+    background-size: contain;
+}
+#page5 .frac2{
+    grid-template-rows: 3fr 1fr;
+    background-color: #ff8fc9;
+}
+#page5 .frac2 .top{
+    background-image: url(./assets/pibble.jpg);
+    background-size: contain;
+}
+#page5 .frac3{
+    grid-template-rows: 1fr 3fr;
+    background-color: palevioletred;
+}
+#page5 .frac3 .bottom{
+    background-image: url(./assets/kitty2.jpg);
+    background-size: contain;
+}
+
+#page5 .frac4{
+    grid-template-rows: 3fr 1fr;
+    background-color: #ff8fc9;
+}
+#page5 .frac4 .top{
+    background-image: url(./assets/pibbles.jpg);
+    background-size: contain;
+}
+#page5 .frac5{
+    grid-template-rows: 1fr 3fr;
+    background-color: palevioletred;
+}
+#page5 .frac5 .bottom{
+    background-image: url(./assets/kitty3.jpg);
+    background-size: contain;
+}
