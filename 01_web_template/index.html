@@ -4,95 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Web app template med P5.js</title>
-    <link rel="stylesheet" href="./index.css">
+    <title>Web template with p5.js</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script>
 </head>
 
 <body>
     <div class="menu-wrapper">
-        <div class="burger-icon">🍔</div>
+        <div class="burger-icon">≡</div>
         <div class="sidebar">
-            <a id="menu-side1">Page 1</a>
-            <a id="menu-side2">Page 2</a>
-            <a id="menu-side3">Page 3</a>
-            <a id="menu-side4">Page 4</a>
         </div>
     </div>
     <main>
-        <div class="page" id="page1">
-            <h1>Page 1</h1>        
+        <div title="Grid Center" class="page" id="page1">
+            <h1>Grid center</h1>
         </div>
-
-        <div class="page" id="page2">
+        <div title="Horizontal Grid" class="page" id="page2">
             <div class="top">
-            <h1>Grid Template Rows</h1>
+                <h1> page 2 grid layout</h1>
+
             </div>
-        
             <div class="bottom">
-            
             </div>
         </div>
 
-        <div class="page" id="page3">
+        <div title="Two Column Grid" class="page" id="page3">
+
             <div class="left">
-
-                <div class="topleft">
-                    <h1>Sigma</h1>
+                <div class="top">
+                    <h1>top</h1>
                 </div>
-                <div class="bottomleft">
-                    <h1>Ultra</h1>
+                <div class="bottom">
+                    <h1>bottom</h1>
                 </div>
             </div>
-            <div class="right"> 
+
+            <div class="right">
                 <div class="box">
-                    <h1>Sigma tekst</h1>
-                    <div class="bottom"></div>
+                    <div class="top">
+                        <h1>hi you</h1>
+                    </div>
+                    <div class="bottom">
+                    </div>
                 </div>
             </div>
-
         </div>
 
-        <div class="page show" id="page4">
-            <h1>Page 4</h1>
-            <h1>Page 4</h1>
-            <h1>Page 4</h1>
-            <h1>Page 4</h1>
+        <div title="4 Col Grid" class="page" id="page4">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
         </div>
-        <div class="page" id="page5">
 
-            <div class="frac1">
+        <div title="Grid with video" class="page" id="page5">
+            <div class="left">
+                <h1>Left</h1>
+            </div>
+            <div class="right">
                 <div class="top">
-                    <h1>Cutie bebe</h1>
+                    <h1>Top right</h1>
                 </div>
-                <div class="bottom"></div>
-            </div>
-            <div class="frac2">
-                <div class="top"></div>
                 <div class="bottom">
-                    <h1>also cute bab</h1>
+                    <h1 id="overlay">Bottom right</h1>
+                    <video src="./assets/305657_tiny.mp4" autoplay muted loop></video>
                 </div>
-            </div>
-            <div class="frac3">
-                <div class="top">
-                    <h1>even more cutie baba</h1>
-                </div>
-                <div class="bottom"></div>
-            </div>
-            <div class="frac4">
-                <div class="top"></div>
-                <div class="bottom">
-                    <h1>umm baba</h1>
-                </div>
-            </div>
-            <div class="frac5">
-                <div class="top">
-                    <h1>cutiee babababa!!</h1>
-                </div>
-                <div class="bottom"></div>
             </div>
         </div>
-
     </main>
+    <script src="./index.js"></script>
 </body>
 
 </html>

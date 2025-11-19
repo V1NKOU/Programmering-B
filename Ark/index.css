@@ -1,0 +1,77 @@
+#hero{
+    background-image: url(./assets/arkBackground.jpg);
+    background-position: center;
+    background-size:cover;
+    background-repeat: no-repeat;
+    height: auto;
+    padding-top: 10vh;
+    padding-bottom: 52vh;
+    mask-image:linear-gradient(to bottom, black 80%, transparent 100%);
+}
+body {
+    background-color: #07331a;
+    margin:0;
+    color: whitesmoke;
+    font-family: Teko;
+    font-weight: 00;
+
+}
+#arkLogo{
+
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
+#arkVideo video{
+    position:absolute;
+    width:100%;
+    left:0;
+    top: 0;
+    z-index: -1;
+
+}
+#arkVideo{
+    position:relative;
+    height: 0;
+    margin-top: 20vh;
+}
+#arkVideo1{
+    position:relative;
+    height: 100%;
+    border:1px;
+    border-color: gray;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.411);
+}   
+#tekstOmråde{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 20vh;
+}
+#tekstOmråde .left{
+    grid-template-rows: 1fr 1fr 1fr;
+
+}
+#tekstOmråde .right{
+    grid-template-rows: 1fr 1fr 1fr;
+}
+#tekstOmråde .right > *,
+#tekstOmråde .left > *{
+
+    align-content: top;
+    text-align: center;
+    height: 50vh;
+}
+
+h1{
+    margin-bottom: 0.5rem;
+    font-size: 2.5rem;
+    font-weight: 600;
+}
+h2{
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 400;
+    font-size: 1.5rem;
+}

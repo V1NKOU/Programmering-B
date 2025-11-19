@@ -18,6 +18,13 @@ function setup(){
         }
     })
 
+    //P5 Button
+    var myButton = createButton("Button created with javascript")
+    //blablabla
+select("#page5").child(myButton)
+myButton.mousePressed(()=>{
+    
+})
     //Drop Downs 
     var theDropdown = select('#theDropdown')
     //Event listener: changed
