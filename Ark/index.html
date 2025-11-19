@@ -3,60 +3,78 @@
     <head>
     <link rel="stylesheet" href="index.css">
     <style>@import url('https://fonts.googleapis.com/css2?family=Teko:wght@300..700&display=swap');</style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/addons/p5.dom.js"></script>
+
     </head>
     <body>
         <section id="hero">
             <div id="arkLogo">
-              <img src="./assets/arkLogo.webp" alt="Ark Logo">
+              <!--<img src="./assets/arkLogo.webp" alt="Ark Logo">-->
             </div>
         </section>
         <section id="info">
             <div id="tekstOmråde">
                 <div class="left">
                     <div class="left1">
-                        <video id="arkVideo1"src="./assets/arkClip.mp4" autoplay loop muted></video>
+                        <video id="arkVideo1" class ="arkVideo" src="./assets/arkClip.mp4" autoplay loop muted></video> <br>
+                        <button id="videoButton1">Pause</button>
                     </div>
                     <div class="left2">
-                        <h1>left2</h1>
+                        <h1>Et diverst og forhistorisk landskab</h1>
+                        <h2>Arks landskab er en unik blanding af frodige jungler, sneklædte bjerge,<br> dybe sumpe og åbne sletter fyldt med liv. Hver region har sine egne farer <br>og ressourcer, og dyrelivet ændrer sig afhængigt af klima og terræn. <br>I himmelen kan 4 store obelisker ses, hvilket er med til at give ideen <br>om at det måske ikke bare er et sted i fortiden spillet finder sted?</h2>
                     </div>
                     <div class="left3">
-                        <h1>left3</h1>
+                        <img class="indhold dino"id="yutyrannus"src="./assets/yutyrannus.png" alt="Yutyrannus Bog">
+                        <img class="indhold dino"id="ankylo"src="./assets/ankylo.png" alt="Ankylo Bog">
+                        <img id="armor" class="indhold pvp" src="./assets/armor.png" alt="armor">
+                        <img id="drage" class="indhold pvp" src="./assets/drage.webp" alt="drage">
+                        <img id="edderkop"class="indhold pvp" src="./assets/edderkop.png" alt="edderkop">
                     </div>
                 </div>
                 <div class="right">
                     <div class="right1">
-                            <h1>Udforsk, dræb, tæm, byg og overlev.</h1>
-                            <h2>Ark er et spil der går ud på at overleve i en primitiv verden 
-                            <h2>fyldt med dinosaurer og andre forhistoriske dyr. Du skal </h2>
-                            <h2>samle ressourcer, bygge redskaber og kæmpe mod den </h2>
-                            <h2>barske natur for at overleve.</h2>
+                        <h1>Udforsk, dræb, tæm, byg og overlev.</h1>
+                        <h2>Ark er et spil der går ud på at overleve i en primitiv verden 
+                        <h2>fyldt med dinosaurer og andre forhistoriske dyr. Du skal </h2>
+                        <h2>samle ressourcer, bygge redskaber og kæmpe mod den </h2>
+                        <h2>barske natur for at overleve.</h2>
                     </div>
                     <div class="right2">
-                        <h1>right2</h1>
+                        <video id="arkVideo2" class="arkVideo"src="./assets/arkClip2.mp4" autoplay loop muted></video> <br>
+                        <button id="videoButton2">Pause</button>
                     </div>
                     <div class="right3">
-                        <h1>right3</h1>
+                        <span>
+                            <h2>Hvad vil du vide mere om?</h2>
+                            <select name="theDropdown" id="theDropdown">
+                                <option value="dino" selected>Dinosaurer og tæmning</option>
+                                <option value="pvp">PvP/PvE</option>
+                                <option value="intet">Intet😨😨</option>
+                            </select>
+                            <h2 class="indhold dino" id="dinoTekst">Ark er fyldt med forhistoriske dyr og dinosaurer (og lidt ekstra), <br>der både kan være en trudsel og en hjælp for spilleren.<br> Man kan nemlig tæmme dem, og dermed både ride, kæmpe<br>og samle ressourcer med dem. For at tæmme de fleste af dem <br>skal man dog først slå dem bevidstløse, hvilket kan være <br> udfordrende eftersom de forsøger at spise dig samtidigt. </h2>
+                            <h2 class="indhold pvp" id="pvpTekst">Ark kan spilles på to måder; enten PvP eller PvE. I PvE, <br>er det spilleren mod den barske natur og dinosaurene. <br> Her er hovedmålet progression, og at klare nogle store <br>bosser helt til sidst af spillet. I PvP derimod er det <br>spillerne mod hinanden; her kan man raide hinandens <br>baser, nakke hinandens tæmmede dino'er, og stjæle<br> ressourcer. Ved hjælp af begge modes er der noget for <br>de fleste, så længe man da kan lide overlevelsesspil.</h2>
+                            <br>
+                            <img id="dodo" class="indhold dino"src="./assets/dodo.webp" alt="dodo">
+                            <img id="spino" class="indhold dino"src="./assets/spino.png" alt="spino">
+                            <img id="tæmning" class="indhold dino" src="./assets/tæmning.png" alt="Tæmning">
+                        </span>
                     </div>
                 </div>
             </div>
-            <div id="arkVideo">
-                <video src="./assets/arkClip.mp4" autoplay muted loop></video>
-            </div>
-            <div class="tekst">
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-                <h1>Hejhej</h1>
-
+            <div id="udfyld">
+                <div id="udfyld1">
+                    <div id="sigma"></div>
+                    <img id="krig" class="indhold pvp"src="./assets/krig.jpg" alt="krig">
+                    <img id="riffel" class="indhold pvp" src="./assets/riffel.png" alt="riffel">
+                </div>
+                <div id="udfyld2">
+                    <a href="https://store.steampowered.com/app/346110/ARK_Survival_Evolved/">Køb spillet her!</a>
+                </div>
             </div>
         </section>
         
-        
+        <script src="./index.js"></script>
     </body>
+    <main></main>
 </html>

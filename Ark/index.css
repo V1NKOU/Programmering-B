@@ -3,9 +3,8 @@
     background-position: center;
     background-size:cover;
     background-repeat: no-repeat;
-    height: auto;
-    padding-top: 10vh;
-    padding-bottom: 52vh;
+    
+    height: 120vh;
     mask-image:linear-gradient(to bottom, black 80%, transparent 100%);
 }
 body {
@@ -17,10 +16,17 @@ body {
 
 }
 #arkLogo{
-
+    background-image: url(./assets/arkLogo.webp);
+    background-repeat: no-repeat;
     display: flex;
     align-self: center;
     justify-content: center;
+    background-attachment: fixed;
+    background-position: center;
+    height: 90vh;
+    padding-bottom: 52vh;
+    padding-top: 10vh;
+    background-size: 24%;
 }
 #arkVideo video{
     position:absolute;
@@ -32,12 +38,11 @@ body {
 }
 #arkVideo{
     position:relative;
-    height: 0;
     margin-top: 20vh;
 }
-#arkVideo1{
+#arkVideo1, #arkVideo2{
     position:relative;
-    height: 100%;
+    height: 100.5%;
     border:1px;
     border-color: gray;
     border-style: solid;
@@ -50,11 +55,11 @@ body {
     margin-top: 20vh;
 }
 #tekstOmråde .left{
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 
 }
 #tekstOmråde .right{
-    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 #tekstOmråde .right > *,
 #tekstOmråde .left > *{
@@ -62,7 +67,51 @@ body {
     align-content: top;
     text-align: center;
     height: 50vh;
+
 }
+
+
+select {
+  border: 2px solid #cccccc;
+  background: #eeeeee;
+  padding: 10px;
+  transition: 0.4s;
+  border-radius: 7px;
+  width: 22vw;
+  font-family: teko;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+select:hover{
+  background: rgba(77, 1, 1, 0);
+  border:2px solid #ffffff;
+  transform: scale(0.95);
+  color: white;
+}
+
+select option{
+    background: white;
+    color: black;
+
+}
+option:hover{
+    background: green;
+    width:1vw;
+    border: 5px solid black;
+}
+
+.indhold{
+    display:none;
+}
+
+body:has(select option[value="dino"]:checked) .dino{
+display:block;
+}
+body:has(select option[value="pvp"]:checked) .pvp{
+display:block;
+}
+
 
 h1{
     margin-bottom: 0.5rem;
@@ -74,4 +123,109 @@ h2{
     margin-bottom: 0.5rem;
     font-weight: 400;
     font-size: 1.5rem;
+}
+.left2 h2{
+    font-size: 1.4rem;
+}
+
+.right2{
+    margin-top: 10vh;
+}
+.left2{
+    margin-top: 20vh;
+}
+.right3{
+    margin-top: 16vh;
+}
+.left3{
+    margin-top: 10vh;
+}
+
+#dodo{
+    position: flex;
+    height: 50%;
+    margin-top: 8vh;
+    margin-left: 38vw;
+}
+#dinoTekst, #pvpTekst{
+    margin-top: 5vh;
+}
+
+#yutyrannus{
+    width: 60%;
+    margin-left: 10vw;
+    margin-bottom: 2vh;
+}
+#ankylo{
+    width: 60%;
+    margin-left: 4vw;
+}
+#spino{
+    height: 70%;
+    margin-top:  -34vh;
+    margin-left: 15vw;
+}
+#tæmning{
+    width: 46%;
+    margin-top: -35vh;
+    margin-left: -10vw;
+    border: 1px solid lightslategray;
+    box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.411);
+}
+
+#udfyld{
+    grid-template-rows: 2fr 1fr;
+    height: 45vh;
+}
+#udfyld1{
+    height:47vh;
+    border-bottom: 3px solid rgb(5, 39, 22);
+}
+#udfyld2{
+    margin-top: 5vh;
+    font-size: 2rem;
+    text-align: center;
+}
+#armor{
+    margin-left: 7vw;
+    padding-top: 10vh;
+}
+#krig{
+    height: 75%;
+    margin-left: 28vw;
+    border: 1px solid lightslategray;
+    box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.411);
+}
+#videoButton1, #videoButton2{
+  border: 2px solid #cccccc;
+  background: #eeeeee;
+  padding: 6px;
+  transition: 0.4s;
+  border-radius: 7px;
+  width: 6vw;
+  font-family: teko;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-top: -8vh;
+  z-index: 1000;
+}
+main{
+    height: 0;
+}
+#drage{
+    height: 50%;
+    margin-left: 22vw;
+    margin-top: -90vh;
+}
+#edderkop{
+    height: 50%;
+    margin-left: 32vw;
+}
+#sigma{
+    height:5vh
+}
+#riffel{
+    margin-left: 65vw;
+    margin-top: -40vh;
+    height: 130%;
 }
