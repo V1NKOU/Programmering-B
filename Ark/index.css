@@ -196,19 +196,7 @@ h2{
     border: 1px solid lightslategray;
     box-shadow: 0px 0px 30px 10px rgba(0, 0, 0, 0.411);
 }
-#videoButton1, #videoButton2{
-  border: 2px solid #cccccc;
-  background: #eeeeee;
-  padding: 6px;
-  transition: 0.4s;
-  border-radius: 7px;
-  width: 6vw;
-  font-family: teko;
-  font-size: 1.6rem;
-  text-align: center;
-  margin-top: -8vh;
-  z-index: 1000;
-}
+
 main{
     height: 0;
 }
@@ -228,4 +216,31 @@ main{
     margin-left: 65vw;
     margin-top: -40vh;
     height: 130%;
+}
+#videoButton1, #videoButton2{
+  border: 2px solid #cccccc;
+  background: #eeeeee;
+  padding: 6px;
+  transition: 0.4s;
+  border-radius: 7px;
+  width: 6vw;
+  font-family: teko;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-top: -8vh;
+  z-index: 1000;
+}
+#videoButton1:hover, #videoButton2:hover{
+  border: 2px solid #cccccc;
+  color: #eeeeee;
+  background: #eeeeee00;
+  padding: 6px;
+  transition: 0.4s;
+  border-radius: 7px;
+  width: 6vw;
+  font-family: teko;
+  font-size: 1.6rem;
+  text-align: center;
+  margin-top: -8vh;
+  z-index: 1000;
 }
