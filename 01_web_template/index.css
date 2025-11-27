@@ -90,10 +90,7 @@ body,*{
     place-items: center;
 }
 
-h1{
-   /* font-weight:500;*/
-    /*font-size: 6rem;*/
-}
+
 #page2{
     grid-template-rows: 1fr 3fr;
 }
@@ -153,49 +150,11 @@ background-color: springgreen;
 }
 #page5{
 
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     font-size: 1rem;
     font-weight: 20;
 
 }
-#page5 .frac1{
-    grid-template-rows: 1fr 3fr;
-    background-color: palevioletred;
-}
-#page5 .frac1 .bottom{
-    background-image: url(./assets/kitty.jpg);
-    background-size: contain;
-}
-#page5 .frac2{
-    grid-template-rows: 3fr 1fr;
-    background-color: #ff8fc9;
-}
-#page5 .frac2 .top{
-    background-image: url(./assets/pibble.jpg);
-    background-size: contain;
-}
-#page5 .frac3{
-    grid-template-rows: 1fr 3fr;
-    background-color: palevioletred;
-}
-#page5 .frac3 .bottom{
-    background-image: url(./assets/kitty2.jpg);
-    background-size: contain;
-}
-
-#page5 .frac4{
-    grid-template-rows: 3fr 1fr;
-    background-color: #ff8fc9;
-}
-#page5 .frac4 .top{
-    background-image: url(./assets/pibbles.jpg);
-    background-size: contain;
-}
-#page5 .frac5{
-    grid-template-rows: 1fr 3fr;
-    background-color: palevioletred;
-}
-#page5 .frac5 .bottom{
-    background-image: url(./assets/kitty3.jpg);
-    background-size: contain;
+#page5.right{
+    grid-template-rows: 1fr 1fr;
 }
