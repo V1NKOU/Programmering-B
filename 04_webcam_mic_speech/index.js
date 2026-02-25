@@ -1,0 +1,100 @@
+var currentPage = '#page3'
+var capture 
+var otterSound, rainSound, fireGif
+var recBtn, recorder, 
+
+function preload(){
+    otterSound = loadSound('./assets/ottersound.mp3') 
+}
+
+//P5 setup() bliver kaldt EN gang før siden vises 
+function setup(){
+    console.log('P5 setup kaldt inshallah')
+    
+    //skift til current page 
+    shiftPage(currentPage)
+
+    capture = createCapture(VIDEO, {flipped:true})
+    capture.size(720,468)
+    select('#page1').child(capture)
+
+//animeret gif
+
+
+//SOUND 
+select('#otter').mousePressed(()=>{
+    fireGif = createImg("./assets/fire.gif")
+    select("#page2").child(fireGif)
+    
+    var pos = select("#otter").position()
+    console.log(pos)
+    fireGif.position(pos.x, pos.y)
+    //skjul odderen
+    select("#otter").hide()
+    otterSound.play()
+    })
+
+    //opret lyd med createSound og indsæt den med DOM binding
+    rainSound = createAudio("./assets/rain.mp3")
+    rainSound.showControls()
+    select("#page2").child(rainSound)
+    //rainSound.play()
+
+    //lydoptagelse
+    var mic = new p5.audioIn()
+    mic.start()
+    //opret en fil til at gemme lyd i
+    audioFile = new p5.soundFile()
+    recorder = new new p5.soundRecorder()
+    recorder.setInput(mic)
+    //
+    recBtn = select("#recBtn")
+    //start stop optagelse
+    recBtn.mousePressed(()=>{
+        if(!isRecording){
+            recorder.record(audioFile, ()=>{
+                console.log("Im stupid")
+            })
+            isRecording = true
+            recordBtn.html("Stop")
+        }else{
+            recorder.stop()
+            isRecording = false
+            setTimeout(()=>{
+                
+            
+            audioFile.play()
+            
+            }, 20)
+        
+            
+    }
+
+
+
+    //Sæt menu op
+    //Hent alle sider som et array
+    var allPages = selectAll('.page')
+    //Løb listen igennem en for en 
+    allPages.map(
+       page => {
+        //Lav et nyt <a> element 
+        var menuItem = createElement('a')
+        //Sæt a taggets html til sidens titel
+        menuItem.html(page.attribute('title'))
+        //sæt eventlistener på a tagget
+        menuItem.mousePressed(
+            () => shiftPage('#' + page.attribute('id'))
+        )
+        //sæt a tagget ind i sidebaren
+        select('.sidebar').child(menuItem)
+       }
+    )
+
+}
+
+function shiftPage(newPage){
+    select(currentPage).removeClass('show')
+    select(newPage).addClass('show')
+    currentPage = newPage
+}

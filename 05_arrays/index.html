@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web template with p5.js</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="index.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/addons/p5.sound.min.js"></script>
+</head>
+
+<body>
+    <div class="menu-wrapper">
+        <div class="burger-icon">≡</div>
+        <div class="sidebar">
+        </div>
+    </div>
+    <main>
+        <div class="page" id="page1" title="Arrays">
+            <h1>Arrays er lister</h1>
+            <p>Kig i konsollen - hint hint...</p>
+        </div>
+        <div class="page" id="page2" title="Lister basics">
+            <h1 id="listeHeader">Overskrift</h1>
+            <span>
+                <input type="text" id="listeInput">
+                <button id="listeButton">Push</button>
+            </span>
+            
+            <div class="container" id="listeContainer"></div>
+        </div>
+        <div title="Remove items" id="page3" class="page">
+            <pre>
+                <code>
+                    <h2>Man fjerner elementer i et array med funktionen splice()</h2>
+                    <p>
+                        For eksempel dette array: var liste = ["John", "Paul", "Ringo", "George"]
+                        liste.splice(0,1)
+                        Og nu er listen: ["Paul", "Ringo", "George"]
+
+                    </p>
+                </code>
+            </pre>
+            <div class="container" id="removeListe">
+
+            </div>
+        </div>
+        <div class="page" id="page4" title="Array filter">
+            <pre>
+                <code>
+                    Man kan filtrere et array med funktionen filter()
+                    var names = ["Simon", "Silas", "Sune", "Seimi", "Selma", "Seb"]
+                    var namesWithA = names.filter( n => {
+                        return n.includes('a')
+                    } )
+                    console.log(namesWithA) // ["Silas", "Selma"]
+                </code>
+            </pre>
+            <input type="text" id="birdInp">
+            <div id="birdContainer"></div>
+
+        </div>
+    </main>
+    <script src="./index.js"></script>
+</body>
+
+</html>
