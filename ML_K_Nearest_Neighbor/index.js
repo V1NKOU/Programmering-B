@@ -25,13 +25,11 @@ var sectionTitle2 = "2. Se Resultat i Grafen"
 var colorList = ['#f04037', '#2e287c', '#fab041']
 
 // BRUG DET HER!
-// preload er en p5.js funktion der kører en gang FØR setup
+// preload kører EN gang før setup
 function preload() {
-    // loadTable er en p5.js funktion der indlæser en CSV-fil
-    // og gør det til et "table" objekt
-    // Filens data placeres i rækker og kolonner med en 'header',
-    // hvilket betyder at den første række i CSV'en
-    // bruges som navne for kolonnerne.
+    //CSV-filen omdannes til et "table" objekt vha p5.js
+    // Filens data placeres i rækker og kolonner 
+    // med første række som header (kolonnenavn)
     table = loadTable(filename, 'csv', 'header')
 }
 
@@ -51,24 +49,22 @@ function setup() {
     // -------------------------------------------------------------
 
     // Variablen rows sættes til at være et array med alle CSV'filens rækker,
-    // hvorefter vi blander dem tilfældigt og tager de første 1000
-    // Vi begrænser til 1000 punkter for hastighedens skyld
+    // hvorefter vi blander dem tilfældigt og tager de første 1000 for hastighedens skyld
     var rows = table.rows
     rows = shuffle(rows).slice(0, 1000) 
 
     // Arrayet 'data' sættes til at være det array vi får tilbage, når vi mapper 
     // CSV'ens kolonner ud fra de keys vi valgte i toppen
     data = rows.map(row => {
+        // Hver række i CSV'en omdannes til et objekt med x, y og bel properties
         // Da alt fra CSV'en er tekst, bruges Number() til at konvertere det til tal.
-        // .get er en p5.js funktion der henter værdien fra CSV'en
-        // baseret på kolonnenavnet (headeren)
         var x = Number(row.get(colX)) // Første variabels kolonne (Culmen Length(mm))
         var y = Number(row.get(colY)) // Andet variabels kolonnne (Flipper Length(mm))
         var label = row.get(colLabel) // Labelet's kolonne (Species)
         
         // Tjek om data er gyldig (ikke NaN og har en label)
         // Der tjekkes om dataen er gyldig ved at sikre, at x og y er tal (ikke NaN),
-        // og at både x, y og label har en værdi (ikke null eller undefined)
+        // ikke er 0 og at både x, y og label har en værdi (ikke null eller undefined)
         if (!isNaN(x) && !isNaN(y) && x && y && label) {
             // Hvis dataen er gyldig, returneres den med en x- og y-værdi og et label.
             return { x, y, label }
@@ -88,8 +84,7 @@ function setup() {
     // Vi mapper data arrayet for at finde antallet af unikke labels
     data.map( point=> {
         // Vi kigger på punktets label og tjekker om det er et vi allerede har set før.
-        // Hvis vi allerede har set det, sker der ikke noget,
-        //men hvis det er et label vi ikke har set før, tilføjes det til uniqueLabels
+        //Hvis ikke, tilføjes det til uniqueLabels
         if(!uniqueLabels.includes(point.label)){
             uniqueLabels.push(point.label)
         }
@@ -195,61 +190,66 @@ function setupControls(){
 }
 
 function classifyUnknown(){
-    //Aflæs værdierne fra sliderne og gem dem i to variabler
+    // Værdierne fra sliderne hentes ind i to variabler
     var inputX = select('#input-x').value()
     var inputY = select('#input-y').value()
 
-    //Indlæs punktet fra sliderne i grafen
+    // Indlæs det sidste dataset i grafen (vores gæt) og sæt dets data 
+    // til at være det punkt vi har fået fra sliderne
     var guessDataset = myChart.data.datasets[myChart.data.datasets.length - 1]
     guessDataset.data = [{x: inputX, y: inputY}]
+    // Opdater grafen for at vise gættet
     myChart.update()
-    //Løb data igennem - altså ALLE datapunkterne - og find hver og ens afstand til vores gæt
+    // Alle punkters afstand til gættet beregnes og gemmes i en ny property på hvert punkt
     data = data.map( p => {
-        //dist ligger i p5.js og den laver pythagoras for os
+        // dist er en p5.js funktion der beregner den Euclidian distance mellem to punkter vha pythagoras
         p.distance = dist(inputX, inputY, p.x, p.y)
         return p
     })
-    //Så sorterer vi dem så dem med mindst afstand til gættet kommer først
-    //sort (a,b) => tag hvert punkt, sammenlign deres distance og sæt den mindste forrest
+    // Hvert punkts distance property sammenlignes, og arrayet 
+    // sorteres med de mindste distancer først
     data.sort((a,b) => a.distance - b.distance)
 
-    //Spørg de [k] nærmeste hvilken gruppe de hører til
+    // antallet af k-naboer hentes fra slideren
     var k = select('#k-slider').value()
 
-    //neighbors er nu de første k elementer i arrayet
+    // neighbors sættes til at være de første k punkter i det sorterede data array
+    // altså de punkter med lavest distance til gættet, og dermed nærmeste naboer
     var neighbors = data.slice(0, k)
 
-    //De stemmer om resultatet og vinderen er fundet
-    //votes er et tomt objekt
+    // votes er et tomt objekt
     var votes = {}
     neighbors.map( n => {
-        //Vi kigger nu på hvert punkts label
-        //Hvis det er et nyt label for os, er vi nødt til lige at sætte dets værdi til nul
-        //Ellers kan vi ikke lægge point til bagefter
+        // For hver nabo tjekkes om dens label allerede findes i votes objektet
+        //Hvis ikke, sættes den til 0
         if(votes[n.label] === undefined){
             votes[n.label] = 0
         }
+        // For hver nabo gives der et "vote" til dets label, ved at øge værdien med 1
         votes[n.label] += 1 
     })
     console.log(votes)
 
-    //Object.keys giver os navnene på nøglerne i et objekt, i dette tilfælde er det jo vores label
+    // Object.keys giver os keysne i votes objektet, 
+    // hvilket er de forskellige labels de tætteste naboer har
     var allLabels = Object.keys(votes)
 
-    //Start med bare at sige at vinderen er den første label
+    // Til at starte med, sættes det første label i allLabels til at være vinderen
     var winner = allLabels[0]
 
-    //Løb alle labelsne igennem og se hvem der så virkelig er vinderen
     allLabels.map( l =>{
+        //For hvert label tjekkes der om det har flere votes end den nuværende vinder
         if(votes[l] > votes[winner]){
+            //Hvis det har, bliver det den nye vinder
             winner = l
         }
     })
-    //Vis i resultat feltet hvilken klasse gættet hører til
+    // Vinderen vises i HTML'en
     console.log(winner)
     select('#winner').html(winner)
+    // Farven på vinderen i grafen vises i HTML'en ved at tjekke vinder-labelets 
+    // index i uniqueLabels, og vise den tilsvarende farve i colorList
     select('#winner-color-box').style('background-color', colorList[uniqueLabels.indexOf(winner)])
-
 }
 
 
