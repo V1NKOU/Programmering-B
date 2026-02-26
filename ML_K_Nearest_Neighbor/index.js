@@ -120,8 +120,11 @@ function setup() {
             pointHoverRadius: 8
         }
     })
-    //Nu indsætter vi et enkelt dataset med brugerens gæt
-    datasets.push({
+
+    //BRUG DET HER!
+
+    // Et enkelt datasæt med brugerens gæt tilføjes til datasets arrayet
+    datasets.push({ 
         label: "Dit gæt",
         data:[],
         pointStyle: "crossRot",
@@ -130,17 +133,19 @@ function setup() {
         borderColor: "black",
         borderWidth: 4
     })
+    //De endelige datasæts logges til konsollen
     console.log("så fik vi lavet dataset grupperne", datasets)
 
-    //vi vil nu oprette grafen med chart.js
+    // Grafen oprettes ved at referere til canvas elementet i HTML'en
+    // og bruge Chart.js til at lave et scatter plot med vores datasets
     const canvasChart = document.getElementById("chartCanvas")
-    //så kommer vi til noget lidt objektorienteret
     myChart = new Chart(canvasChart, {
-        //scatter er et punktdiagram i 2D (x,y)
+        // scatter er et todimmensionelt punktdiagram (x,y)
         type: "scatter",
+        // Vi sætter data til at være det array af datasets vi lige har lavet
         data: { datasets:datasets },
         options:{
-            //scales styrer hvad x og y akserne HEDDER
+            //Aksetitlerne sættes til de valgte kolonnenavne fra CSV'en med "scales"
             scales:{
                 x:{title:{display:true,text:colX}},
                 y:{title:{display:true,text:colY}},
@@ -148,7 +153,7 @@ function setup() {
         }
 
     })
-
+    // Da grafen nu er sat op, kalder vi setupControls()
     setupControls()
 }
 
