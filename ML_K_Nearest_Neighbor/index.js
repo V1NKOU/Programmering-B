@@ -12,7 +12,7 @@ var uniqueLabels
 // udgangspunkt i for vores x og y akser, og hvilket label vi vil kigge på.
 var filename = 'assets/penguinsList.csv'
 var colX = 'Culmen Length (mm)'     // X-aksen: Variabel 1 (input)
-var colY = 'Flipper Length (mm)'      // Y-aksen: Variabel 2 (input)
+var colY = 'Flipper Length (mm)'    // Y-aksen: Variabel 2 (input)
 var colLabel = 'Species' // Facit: Hvilken gruppe hører man til?
 
 // GUI Overskrifter (Gør det pænt for brugeren)
@@ -56,7 +56,7 @@ function setup() {
     // Arrayet 'data' sættes til at være det array vi får tilbage, når vi mapper 
     // CSV'ens kolonner ud fra de keys vi valgte i toppen
     data = rows.map(row => {
-        // Hver række i CSV'en omdannes til et objekt med x, y og bel properties
+        // Hver række i CSV'en omdannes til et objekt med x, y og label properties
         // Da alt fra CSV'en er tekst, bruges Number() til at konvertere det til tal.
         var x = Number(row.get(colX)) // Første variabels kolonne (Culmen Length(mm))
         var y = Number(row.get(colY)) // Andet variabels kolonnne (Flipper Length(mm))
@@ -252,6 +252,9 @@ function classifyUnknown(){
     select('#winner-color-box').style('background-color', colorList[uniqueLabels.indexOf(winner)])
 }
 
-
-//analysespørgsmål
-//hvordan renser vi koden
+//dist(x,y)
+//Her er x og y begge vektorer, der skal findes en distance mellem. 
+// Da det er et todimensionelt datasæt der tages udgangspunkt i, 
+// har begge vektorer 2 værdier, men det kunne sagtens have været flere. 
+// Formlen bygger på Pythagoras, da det er den rette afstand mellem to punkter der skal findes.
+// D
