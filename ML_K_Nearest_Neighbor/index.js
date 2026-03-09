@@ -12,7 +12,7 @@ var uniqueLabels
 // udgangspunkt i for vores x og y akser, og hvilket label vi vil kigge på.
 var filename = 'assets/penguinsList.csv'
 var colX = 'Culmen Length (mm)'     // X-aksen: Variabel 1 (input)
-var colY = 'Flipper Length (mm)'      // Y-aksen: Variabel 2 (input)
+var colY = 'Flipper Length (mm)'    // Y-aksen: Variabel 2 (input)
 var colLabel = 'Species' // Facit: Hvilken gruppe hører man til?
 
 // GUI Overskrifter (Gør det pænt for brugeren)
@@ -23,9 +23,10 @@ var sectionTitle2 = "2. Se Resultat i Grafen"
 
 // Farver til vores grupper (Labels) - Chart.js bruger disse
 var colorList = ['#f04037', '#2e287c', '#fab041']
+var colorList = ['#f04037', '#2e287c', '#fab041']
 
 // BRUG DET HER!
-// preload er en p5.js funktion der kører en gang FØR setup
+// preload kører EN gang før setup
 function preload() {
     // loadTable er en p5.js funktion der indlæser en CSV-fil
     // og gør det til et "table" objekt
@@ -55,6 +56,7 @@ function setup() {
     // Vi begrænser til 1000 punkter for hastighedens skyld
     var rows = table.rows
     rows = shuffle(rows).slice(0, 1000) 
+    rows = shuffle(rows).slice(0, 1000) 
 
     // Arrayet 'data' sættes til at være det array vi får tilbage, når vi mapper 
     // CSV'ens kolonner ud fra de keys vi valgte i toppen
@@ -68,11 +70,14 @@ function setup() {
         
         // Tjek om data er gyldig (ikke NaN og har en label)
         // Der tjekkes om dataen er gyldig ved at sikre, at x og y er tal (ikke NaN),
-        // og at både x, y og label har en værdi (ikke null eller undefined)
+        // ikke er 0 og at både x, y og label har en værdi (ikke null eller undefined)
         if (!isNaN(x) && !isNaN(y) && x && y && label) {
             // Hvis dataen er gyldig, returneres den med en x- og y-værdi og et label.
             return { x, y, label }
         }
+    // Tomme/ugyldige pladser i arrayet fjernes med filter
+    }).filter(p => p)
+    // Dataen logges til konsollen
     // Tomme/ugyldige pladser i arrayet fjernes med filter
     }).filter(p => p)
     // Dataen logges til konsollen
@@ -84,7 +89,14 @@ function setup() {
     
     // BRUG DET HER!
     // til at starte med sættes uniqueLabels til et tomt array
+ 
+    // nu skal vi forberede data til at blive vist med chart.js
+    // Vi skal have fat i de unikke labels for hver gruppe i data
+    
+    // BRUG DET HER!
+    // til at starte med sættes uniqueLabels til et tomt array
     uniqueLabels = []
+    // Vi mapper data arrayet for at finde antallet af unikke labels
     // Vi mapper data arrayet for at finde antallet af unikke labels
     data.map( point=> {
         // Vi kigger på punktets label og tjekker om det er et vi allerede har set før.
@@ -99,17 +111,30 @@ function setup() {
     // De unikke labels bruges nu til at gruppere dataen i datasets (json objekter)
     // med den information som chart.js skal bruge.
     // For hvert unikt label laver vi en gruppe med alle datapunkterne der har det label
+    // De unikke labels der blev fundet logges til konsollen
+    console.log("Vi kiggede alle punkterne igennem og fandt disse labels: ", uniqueLabels)
+    // De unikke labels bruges nu til at gruppere dataen i datasets (json objekter)
+    // med den information som chart.js skal bruge.
+    // For hvert unikt label laver vi en gruppe med alle datapunkterne der har det label
     var datasets = uniqueLabels.map( (label, index) =>{
         // Vi filtrerer data arrayet for at finde alle de punkter, 
         // der har det label vi kigger på i denne iteration
+        // Vi filtrerer data arrayet for at finde alle de punkter, 
+        // der har det label vi kigger på i denne iteration
         var groupData = data.filter( point =>{
+            // Hvert punkt hvis label matcher det label vi kigger på,
+            // returneres i det nye array groupData
             // Hvert punkt hvis label matcher det label vi kigger på,
             // returneres i det nye array groupData
             return point.label == label
         })
         // Vi vælger en farve til gruppen baseret på dens index i uniqueLabels
         // og den tilsvarende farve i colorList (der er defineret tidligere i koden)
+        // Vi vælger en farve til gruppen baseret på dens index i uniqueLabels
+        // og den tilsvarende farve i colorList (der er defineret tidligere i koden)
         var col = colorList[index]
+        // Returner det færdige objekt med alle datapunkterne for hvert label 
+        // og den information som chart.js skal bruge for at opstille grafen
         // Returner det færdige objekt med alle datapunkterne for hvert label 
         // og den information som chart.js skal bruge for at opstille grafen
         return {
@@ -125,6 +150,11 @@ function setup() {
 
     // Et enkelt datasæt med brugerens gæt tilføjes til datasets arrayet
     datasets.push({ 
+
+    //BRUG DET HER!
+
+    // Et enkelt datasæt med brugerens gæt tilføjes til datasets arrayet
+    datasets.push({ 
         label: "Dit gæt",
         data:[],
         pointStyle: "crossRot",
@@ -134,17 +164,23 @@ function setup() {
         borderWidth: 4
     })
     //De endelige datasæts logges til konsollen
+    //De endelige datasæts logges til konsollen
     console.log("så fik vi lavet dataset grupperne", datasets)
 
+    // Grafen oprettes ved at referere til canvas elementet i HTML'en
+    // og bruge Chart.js til at lave et scatter plot med vores datasets
     // Grafen oprettes ved at referere til canvas elementet i HTML'en
     // og bruge Chart.js til at lave et scatter plot med vores datasets
     const canvasChart = document.getElementById("chartCanvas")
     myChart = new Chart(canvasChart, {
         // scatter er et todimmensionelt punktdiagram (x,y)
+        // scatter er et todimmensionelt punktdiagram (x,y)
         type: "scatter",
+        // Vi sætter data til at være det array af datasets vi lige har lavet
         // Vi sætter data til at være det array af datasets vi lige har lavet
         data: { datasets:datasets },
         options:{
+            //Aksetitlerne sættes til de valgte kolonnenavne fra CSV'en med "scales"
             //Aksetitlerne sættes til de valgte kolonnenavne fra CSV'en med "scales"
             scales:{
                 x:{title:{display:true,text:colX}},
@@ -153,6 +189,7 @@ function setup() {
         }
 
     })
+    // Da grafen nu er sat op, kalder vi setupControls()
     // Da grafen nu er sat op, kalder vi setupControls()
     setupControls()
 }
@@ -195,63 +232,71 @@ function setupControls(){
 }
 
 function classifyUnknown(){
-    //Aflæs værdierne fra sliderne og gem dem i to variabler
+    // Værdierne fra sliderne hentes ind i to variabler
     var inputX = select('#input-x').value()
     var inputY = select('#input-y').value()
 
-    //Indlæs punktet fra sliderne i grafen
+    // Indlæs det sidste dataset i grafen (vores gæt) og sæt dets data 
+    // til at være det punkt vi har fået fra sliderne
     var guessDataset = myChart.data.datasets[myChart.data.datasets.length - 1]
     guessDataset.data = [{x: inputX, y: inputY}]
+    // Opdater grafen for at vise gættet
     myChart.update()
-    //Løb data igennem - altså ALLE datapunkterne - og find hver og ens afstand til vores gæt
+    // Alle punkters afstand til gættet beregnes og gemmes i en ny property på hvert punkt
     data = data.map( p => {
-        //dist ligger i p5.js og den laver pythagoras for os
+        // dist er en p5.js funktion der beregner den Euclidian distance mellem to punkter vha pythagoras
         p.distance = dist(inputX, inputY, p.x, p.y)
         return p
     })
-    //Så sorterer vi dem så dem med mindst afstand til gættet kommer først
-    //sort (a,b) => tag hvert punkt, sammenlign deres distance og sæt den mindste forrest
+    // Hvert punkts distance property sammenlignes, og arrayet 
+    // sorteres med de mindste distancer først
     data.sort((a,b) => a.distance - b.distance)
 
-    //Spørg de [k] nærmeste hvilken gruppe de hører til
+    // antallet af k-naboer hentes fra slideren
     var k = select('#k-slider').value()
 
-    //neighbors er nu de første k elementer i arrayet
+    // neighbors sættes til at være de første k punkter i det sorterede data array
+    // altså de punkter med lavest distance til gættet, og dermed nærmeste naboer
     var neighbors = data.slice(0, k)
 
-    //De stemmer om resultatet og vinderen er fundet
-    //votes er et tomt objekt
+    // votes er et tomt objekt
     var votes = {}
     neighbors.map( n => {
-        //Vi kigger nu på hvert punkts label
-        //Hvis det er et nyt label for os, er vi nødt til lige at sætte dets værdi til nul
-        //Ellers kan vi ikke lægge point til bagefter
+        // For hver nabo tjekkes om dens label allerede findes i votes objektet
+        //Hvis ikke, sættes den til 0
         if(votes[n.label] === undefined){
             votes[n.label] = 0
         }
+        // For hver nabo gives der et "vote" til dets label, ved at øge værdien med 1
         votes[n.label] += 1 
     })
     console.log(votes)
 
-    //Object.keys giver os navnene på nøglerne i et objekt, i dette tilfælde er det jo vores label
+    // Object.keys giver os keysne i votes objektet, 
+    // hvilket er de forskellige labels de tætteste naboer har
     var allLabels = Object.keys(votes)
 
-    //Start med bare at sige at vinderen er den første label
+    // Til at starte med, sættes det første label i allLabels til at være vinderen
     var winner = allLabels[0]
 
-    //Løb alle labelsne igennem og se hvem der så virkelig er vinderen
     allLabels.map( l =>{
+        //For hvert label tjekkes der om det har flere votes end den nuværende vinder
         if(votes[l] > votes[winner]){
+            //Hvis det har, bliver det den nye vinder
             winner = l
         }
     })
-    //Vis i resultat feltet hvilken klasse gættet hører til
+    // Vinderen vises i HTML'en
     console.log(winner)
     select('#winner').html(winner)
+    // Farven på vinderen i grafen vises i HTML'en ved at tjekke vinder-labelets 
+    // index i uniqueLabels, og vise den tilsvarende farve i colorList
     select('#winner-color-box').style('background-color', colorList[uniqueLabels.indexOf(winner)])
-
 }
 
-
-//analysespørgsmål
-//hvordan renser vi koden
+//dist(x,y)
+//Her er x og y begge vektorer, der skal findes en distance mellem. 
+// Da det er et todimensionelt datasæt der tages udgangspunkt i, 
+// har begge vektorer 2 værdier, men det kunne sagtens have været flere. 
+// Formlen bygger på Pythagoras, da det er den rette afstand mellem to punkter der skal findes.
+// D
