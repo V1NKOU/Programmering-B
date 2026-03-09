@@ -78,9 +78,7 @@ function setup() {
     // Tomme/ugyldige pladser i arrayet fjernes med filter
     }).filter(p => p)
     // Dataen logges til konsollen
-    // Tomme/ugyldige pladser i arrayet fjernes med filter
-    }).filter(p => p)
-    // Dataen logges til konsollen
+
     console.log("Data klar:", data.length, "punkter")
     console.log(data)
  
@@ -89,14 +87,7 @@ function setup() {
     
     // BRUG DET HER!
     // til at starte med sættes uniqueLabels til et tomt array
- 
-    // nu skal vi forberede data til at blive vist med chart.js
-    // Vi skal have fat i de unikke labels for hver gruppe i data
-    
-    // BRUG DET HER!
-    // til at starte med sættes uniqueLabels til et tomt array
     uniqueLabels = []
-    // Vi mapper data arrayet for at finde antallet af unikke labels
     // Vi mapper data arrayet for at finde antallet af unikke labels
     data.map( point=> {
         // Vi kigger på punktets label og tjekker om det er et vi allerede har set før.
@@ -112,31 +103,20 @@ function setup() {
     // med den information som chart.js skal bruge.
     // For hvert unikt label laver vi en gruppe med alle datapunkterne der har det label
     // De unikke labels der blev fundet logges til konsollen
-    console.log("Vi kiggede alle punkterne igennem og fandt disse labels: ", uniqueLabels)
-    // De unikke labels bruges nu til at gruppere dataen i datasets (json objekter)
-    // med den information som chart.js skal bruge.
-    // For hvert unikt label laver vi en gruppe med alle datapunkterne der har det label
     var datasets = uniqueLabels.map( (label, index) =>{
         // Vi filtrerer data arrayet for at finde alle de punkter, 
         // der har det label vi kigger på i denne iteration
-        // Vi filtrerer data arrayet for at finde alle de punkter, 
-        // der har det label vi kigger på i denne iteration
         var groupData = data.filter( point =>{
-            // Hvert punkt hvis label matcher det label vi kigger på,
-            // returneres i det nye array groupData
             // Hvert punkt hvis label matcher det label vi kigger på,
             // returneres i det nye array groupData
             return point.label == label
         })
         // Vi vælger en farve til gruppen baseret på dens index i uniqueLabels
         // og den tilsvarende farve i colorList (der er defineret tidligere i koden)
-        // Vi vælger en farve til gruppen baseret på dens index i uniqueLabels
-        // og den tilsvarende farve i colorList (der er defineret tidligere i koden)
         var col = colorList[index]
         // Returner det færdige objekt med alle datapunkterne for hvert label 
         // og den information som chart.js skal bruge for at opstille grafen
-        // Returner det færdige objekt med alle datapunkterne for hvert label 
-        // og den information som chart.js skal bruge for at opstille grafen
+
         return {
             label: label,
             data: groupData,
@@ -146,10 +126,6 @@ function setup() {
         }
     })
 
-    //BRUG DET HER!
-
-    // Et enkelt datasæt med brugerens gæt tilføjes til datasets arrayet
-    datasets.push({ 
 
     //BRUG DET HER!
 
@@ -164,23 +140,17 @@ function setup() {
         borderWidth: 4
     })
     //De endelige datasæts logges til konsollen
-    //De endelige datasæts logges til konsollen
     console.log("så fik vi lavet dataset grupperne", datasets)
 
-    // Grafen oprettes ved at referere til canvas elementet i HTML'en
-    // og bruge Chart.js til at lave et scatter plot med vores datasets
     // Grafen oprettes ved at referere til canvas elementet i HTML'en
     // og bruge Chart.js til at lave et scatter plot med vores datasets
     const canvasChart = document.getElementById("chartCanvas")
     myChart = new Chart(canvasChart, {
         // scatter er et todimmensionelt punktdiagram (x,y)
-        // scatter er et todimmensionelt punktdiagram (x,y)
         type: "scatter",
-        // Vi sætter data til at være det array af datasets vi lige har lavet
         // Vi sætter data til at være det array af datasets vi lige har lavet
         data: { datasets:datasets },
         options:{
-            //Aksetitlerne sættes til de valgte kolonnenavne fra CSV'en med "scales"
             //Aksetitlerne sættes til de valgte kolonnenavne fra CSV'en med "scales"
             scales:{
                 x:{title:{display:true,text:colX}},
@@ -189,7 +159,6 @@ function setup() {
         }
 
     })
-    // Da grafen nu er sat op, kalder vi setupControls()
     // Da grafen nu er sat op, kalder vi setupControls()
     setupControls()
 }
@@ -293,10 +262,3 @@ function classifyUnknown(){
     // index i uniqueLabels, og vise den tilsvarende farve i colorList
     select('#winner-color-box').style('background-color', colorList[uniqueLabels.indexOf(winner)])
 }
-
-//dist(x,y)
-//Her er x og y begge vektorer, der skal findes en distance mellem. 
-// Da det er et todimensionelt datasæt der tages udgangspunkt i, 
-// har begge vektorer 2 værdier, men det kunne sagtens have været flere. 
-// Formlen bygger på Pythagoras, da det er den rette afstand mellem to punkter der skal findes.
-// D
