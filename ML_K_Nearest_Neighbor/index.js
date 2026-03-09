@@ -1,13 +1,3 @@
-// ------------------------------------------------------------------
-// UNDERVISNINGS-MANUSKRIPT: ML & KNN (Chart.js Version)
-// ------------------------------------------------------------------
-// MÅL FOR TIMEN:
-// 1. Indlæse data fra CSV
-// 2. Rense data og konvertere til objekter
-// 3. Visualisere data med Chart.js (Scatter plot)
-// 4. Implementere KNN algoritmen (Afstand, Sortering, Afgørelse)
-// ------------------------------------------------------------------
-
 // -------------------------------------------------------------
 // TRIN 1: GLOBALE VARIABLER OG INDSTILLINGER
 // (Start her: Vi skal definere hvad vores program skal kunne huske)
@@ -28,11 +18,11 @@ var colLabel = 'Species' // Facit: Hvilken gruppe hører man til?
 // GUI Overskrifter (Gør det pænt for brugeren)
 var mainTitle = "Penguin Predictor"
 var sectionTitle1 = "1. Indtast dine tal"
-var instructionText = "Angiv antal pauser og søvntimer:"
+var instructionText = "Angiv næb og luffelængde:"
 var sectionTitle2 = "2. Se Resultat i Grafen"
 
 // Farver til vores grupper (Labels) - Chart.js bruger disse
-var colorList = ['#f04037', '#262261', '#fab041']
+var colorList = ['#f04037', '#2e287c', '#fab041']
 
 // BRUG DET HER!
 // preload er en p5.js funktion der kører en gang FØR setup
@@ -40,7 +30,8 @@ function preload() {
     // loadTable er en p5.js funktion der indlæser en CSV-fil
     // og gør det til et "table" objekt
     // Filens data placeres i rækker og kolonner med en 'header',
-    // hvilket betyder at den første række i CSV'en bruges som navne for kolonnerne.
+    // hvilket betyder at den første række i CSV'en
+    // bruges som navne for kolonnerne.
     table = loadTable(filename, 'csv', 'header')
 }
 
@@ -61,18 +52,19 @@ function setup() {
 
     // Variablen rows sættes til at være et array med alle CSV'filens rækker,
     // hvorefter vi blander dem tilfældigt og tager de første 1000
+    // Vi begrænser til 1000 punkter for hastighedens skyld
     var rows = table.rows
-    rows = shuffle(rows).slice(0, 1000) // Vi begrænser til 1000 punkter for hastighedens skyld
+    rows = shuffle(rows).slice(0, 1000) 
 
     // Arrayet 'data' sættes til at være det array vi får tilbage, når vi mapper 
     // CSV'ens kolonner ud fra de keys vi valgte i toppen
     data = rows.map(row => {
-        // Da alt fra CSV'en er tekst, bruger vi Number() for at konvertere det til tal.
+        // Da alt fra CSV'en er tekst, bruges Number() til at konvertere det til tal.
         // .get er en p5.js funktion der henter værdien fra CSV'en
         // baseret på kolonnenavnet (headeren)
-        var x = Number(row.get(colX)) // den valgte kolonne for x-aksen (Culmen Length(mm))
-        var y = Number(row.get(colY)) // den valgte kolonne for y-aksen (Flipper Length(mm))
-        var label = row.get(colLabel) // den valgte kolonne for label (Species)
+        var x = Number(row.get(colX)) // Første variabels kolonne (Culmen Length(mm))
+        var y = Number(row.get(colY)) // Andet variabels kolonnne (Flipper Length(mm))
+        var label = row.get(colLabel) // Labelet's kolonne (Species)
         
         // Tjek om data er gyldig (ikke NaN og har en label)
         // Der tjekkes om dataen er gyldig ved at sikre, at x og y er tal (ikke NaN),
@@ -81,27 +73,45 @@ function setup() {
             // Hvis dataen er gyldig, returneres den med en x- og y-værdi og et label.
             return { x, y, label }
         }
-    }).filter(p => p) // Fjern tomme pladser i arrayet
-
+    // Tomme/ugyldige pladser i arrayet fjernes med filter
+    }).filter(p => p)
+    // Dataen logges til konsollen
     console.log("Data klar:", data.length, "punkter")
     console.log(data)
-
-    //nu skal vi forberede data til at blive vist med chart.js
-    //Vi skal have fat i de unikke labels for hver gruppe i data
+ 
+    // nu skal vi forberede data til at blive vist med chart.js
+    // Vi skal have fat i de unikke labels for hver gruppe i data
+    
+    // BRUG DET HER!
+    // til at starte med sættes uniqueLabels til et tomt array
     uniqueLabels = []
+    // Vi mapper data arrayet for at finde antallet af unikke labels
     data.map( point=> {
-        //vi kigger på punktets label. HVIS vi ikke har set det label før, så må det være et UNIKT nyt et.
+        // Vi kigger på punktets label og tjekker om det er et vi allerede har set før.
+        // Hvis vi allerede har set det, sker der ikke noget,
+        //men hvis det er et label vi ikke har set før, tilføjes det til uniqueLabels
         if(!uniqueLabels.includes(point.label)){
             uniqueLabels.push(point.label)
         }
     })
-    console.log("Vi kiggede alle punkterne igennem og fandt alle disse labels: ", uniqueLabels)
+    // De unikke labels der blev fundet logges til konsollen
+    console.log("Vi kiggede alle punkterne igennem og fandt disse labels: ", uniqueLabels)
+    // De unikke labels bruges nu til at gruppere dataen i datasets (json objekter)
+    // med den information som chart.js skal bruge.
+    // For hvert unikt label laver vi en gruppe med alle datapunkterne der har det label
     var datasets = uniqueLabels.map( (label, index) =>{
+        // Vi filtrerer data arrayet for at finde alle de punkter, 
+        // der har det label vi kigger på i denne iteration
         var groupData = data.filter( point =>{
+            // Hvert punkt hvis label matcher det label vi kigger på,
+            // returneres i det nye array groupData
             return point.label == label
         })
+        // Vi vælger en farve til gruppen baseret på dens index i uniqueLabels
+        // og den tilsvarende farve i colorList (der er defineret tidligere i koden)
         var col = colorList[index]
-        //returner den FÆRDIGE gruppe med alle datapunkterne for hvert label
+        // Returner det færdige objekt med alle datapunkterne for hvert label 
+        // og den information som chart.js skal bruge for at opstille grafen
         return {
             label: label,
             data: groupData,
@@ -110,8 +120,11 @@ function setup() {
             pointHoverRadius: 8
         }
     })
-    //Nu indsætter vi et enkelt dataset med brugerens gæt
-    datasets.push({
+
+    //BRUG DET HER!
+
+    // Et enkelt datasæt med brugerens gæt tilføjes til datasets arrayet
+    datasets.push({ 
         label: "Dit gæt",
         data:[],
         pointStyle: "crossRot",
@@ -120,17 +133,19 @@ function setup() {
         borderColor: "black",
         borderWidth: 4
     })
+    //De endelige datasæts logges til konsollen
     console.log("så fik vi lavet dataset grupperne", datasets)
 
-    //vi vil nu oprette grafen med chart.js
+    // Grafen oprettes ved at referere til canvas elementet i HTML'en
+    // og bruge Chart.js til at lave et scatter plot med vores datasets
     const canvasChart = document.getElementById("chartCanvas")
-    //så kommer vi til noget lidt objektorienteret
     myChart = new Chart(canvasChart, {
-        //scatter er et punktdiagram i 2D (x,y)
+        // scatter er et todimmensionelt punktdiagram (x,y)
         type: "scatter",
+        // Vi sætter data til at være det array af datasets vi lige har lavet
         data: { datasets:datasets },
         options:{
-            //scales styrer hvad x og y akserne HEDDER
+            //Aksetitlerne sættes til de valgte kolonnenavne fra CSV'en med "scales"
             scales:{
                 x:{title:{display:true,text:colX}},
                 y:{title:{display:true,text:colY}},
@@ -138,7 +153,7 @@ function setup() {
         }
 
     })
-
+    // Da grafen nu er sat op, kalder vi setupControls()
     setupControls()
 }
 
