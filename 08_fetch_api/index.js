@@ -1,8 +1,5 @@
 var currentPage = '#page1'
 var deck
-var state = "begin"
-var playerCardTotal = 0
-var aceCount = 0
 
 var player = {
     cards:[],
@@ -14,6 +11,10 @@ var dealer = {
     total:0
 }
 
+
+
+var state = "begin"
+
 //P5 setup() bliver kaldt EN gang før siden vises 
 function setup(){
     console.log('P5 setup kaldt inshallah')
@@ -23,6 +24,11 @@ function setup(){
 
     getDeck()
 
+    select('#playerDrawBtn').mousePressed(() => {
+        if (state !== "player") return;
+        drawCard("player");
+    })
+    select('#playerStandBtn').mousePressed(() => drawCard("dealer"))
 
     
     //Sæt menu op
@@ -43,20 +49,7 @@ function setup(){
         select('.sidebar').child(menuItem)
        }
     )
-
-    var drawBtn = select('#playerDrawBtn')
-    drawBtn.mousePressed( () => {
-        if(state=="player"){
-            drawCard()    
-       }
-    })
-    var standBtn = select('#playerStandBtn')
-    standBtn.mousePressed( () => {
-        state = "dealer"
-        select('#value-numberP').style('text-decoration', 'underline')
-        select('#value-numberP').html(playerCardTotal)
-    })
-    
+    console.log(player.total)
 }
 //Async står for asyncronous - vi ved ikke præcis hvor længe det tager at køre funktionen  
 async function getDeck(){
@@ -70,43 +63,119 @@ async function getDeck(){
             console.log("Data vi får tilbage: ", data)
             deck = data
             drawCard()
+            
         }
     } catch (error){
         console.log(error)
     }
 }
 
-async function drawCard(){
+async function drawCard(newState){
+
+    if(newState){
+        state = newState
+    }
+    if(state == "dealer"){
+
+    }
+    if(state == "player"){
+        console.log('Showtime - implementer denne funktion til næste gang vi har programmering')
+        var newCard = await getOneCard()
+        player.cards.push(newCard)
+        showCards()
+        player.total += Number(returnCardValue(newCard))
+        if(player.total < 21){
+            return
+        }
+        if(player.total == 21){
+            state = "dealer"
+            drawCard()
+        }
+        if(player.total > 21){
+            player.cards.map( c => {
+                if(c.value == "ACE"){
+                    c.value = 'ACE-used'
+                    player.total -= 10
+                    if(player.total < 21){
+                        return
+                    }
+                    if(player.total == 21){
+                        state = "dealer"
+                        drawCard()
+                    }
+                }
+            })
+            if(player.total > 21){
+                state = "playerLose"
+                drawCard()
+            }
+            console.log("Player total: ", player.total)
+        }
+        //Træk et kort med funktionen getOneCard()
+        //Plus kortet til total
+        //push det nye kort i player.cards
+        //hvis spilleren har under 21, return
+        //hvis spilleren har 21, skift state til dealer og kald drawCard()
+        //tjek om total er over 21
+        //tjek for es'er ved at mappe player.cards og -10 for hvert es indtil total er under 21
+        //Hvis resultatet er under 21, return
+        //Hvis resultatet stadig er over 21, sæt state = "playerLose" og kald drawCard()
+    }
     if(state == "begin"){
         var cardOne = await getOneCard()
+        //først ligger vi kortetenes værdi oven i spiller variablen (uden hensyn til es)
         player.cards.push(cardOne)
-        returnCardValue(cardOne)
         var cardTwo = await getOneCard()
         player.cards.push(cardTwo)
-        returnCardValue(cardTwo)
+
+        player.total += Number(returnCardValue(cardOne))
+        player.total += Number(returnCardValue(cardTwo))
+
+        //nu er vi en situation hvor spillere faktisk kunne have vundet, kunne have 22(to es'er), eller bare kunne have fået et eller andet tal under 21. 
+        if(player.total == 22){
+            player.total = 12
+        }
+
         //Dealeres FØRSTE kort skal være skjult
         var dealerCardOne = await getOneCard()
         dealerCardOne.hidden = true
         dealer.cards.push(dealerCardOne)
         var dealerCardTwo = await getOneCard()
         dealer.cards.push(dealerCardTwo)
+
+        //Regn dealerens kort ud for at se om de har blackjack
+        dealer.total += returnCardValue(dealerCardOne)
+        dealer.total += returnCardValue(dealerCardTwo)
+
+         if(dealer.total == 22){
+            dealer.total = 12
+        }
+
+
+
+        if(dealer.total == 21 && player.total == 21){
+            select('#result').html("It's a draw")
+            setTimeout(restart, 3000)
+        }
+        if(dealer.total == 21 && player.total != 21){
+            select('#result').html("Dealer Won")
+            setTimeout(restart, 3000)
+        }
+
         showCards()
         state = "player"
-    }else if(state == "player" && playerCardTotal < 21){
-        var newCard = await getOneCard()
-        player.cards.push(newCard)
-        // update the player's total when a new card is drawn
-        returnCardValue(newCard)
-        console.log("player cards: ", player.cards)
-        if(playerCardTotal >= 21 && aceCount == 0){
-            state = "dealer"
-            select('#value-numberP').style('text-decoration', 'underline')
-        }else if(state == "player" && playerCardTotal > 21 && aceCount > 0){
-        playerCardTotal -= 10
-        aceCount --
-        }
-        showCards()
     }
+
+}
+
+function restart(){
+    select('#result').html('')
+    player.cards = []
+    player.total = 0
+    dealer.cards = []
+    dealer.total = 0
+    state = "begin"
+    drawCard()
 }
 
 function showCards(){
@@ -129,32 +198,17 @@ function showCards(){
         img.style('transform', `translate(${i*40}px, ${i*40}px)`)
         select('#dealer .cards').child(img)
     })
-    if(aceCount == 0){
-        select('#value-numberP').html(playerCardTotal)
-    }else if(aceCount > 0){
-        select('#value-numberP').html((playerCardTotal - aceCount*10) + "/" + playerCardTotal)
-
-    }
 }
 
 function returnCardValue(card){
-    // Handle ACE specially, face cards (JACK/QUEEN/KING) as 10, and numeric cards as their numeric value
-    if(card.value === "ACE"){
-        playerCardTotal += 11
-        aceCount ++
-        return 11
-
-    } else if(isNaN(Number(card.value))){
-        // face cards (JACK, QUEEN, KING)
-        playerCardTotal += 10
-        return 10
-    } else {
-        playerCardTotal += Number(card.value)
-        return Number(card.value)
-    }
-    if(state == "dealer" || playerCardTotal >= 21){
-    state = "dealer"
-    select('#value-numberP').style('text-decoration', 'underline')
+    if(isNaN(card.value)){
+        if(card.value == "ACE"){
+            return 11
+        }else{   
+            return 10
+        }
+    }else{
+        return card.value
     }
 }
 
@@ -171,12 +225,9 @@ async function getOneCard(){
 
 }
 
-
-    console.log("Player card total:", playerCardTotal)
-
-    function shiftPage(newPage){
-        select(currentPage).removeClass('show')
-        select(newPage).addClass('show')
-        currentPage = newPage
-    }
+function shiftPage(newPage){
+    select(currentPage).removeClass('show')
+    select(newPage).addClass('show')
+    currentPage = newPage
+}
 

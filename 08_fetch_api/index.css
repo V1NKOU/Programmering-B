@@ -86,7 +86,6 @@ body,
     position: fixed;
     left: -100vw;
     transition: all .6s ease-in-out;
-    background-color: rgb(36, 104, 33);
 }
 
 .show {
@@ -108,16 +107,16 @@ body,
 .cards{
     height:40vh;
     width:80%;
-    background:rgb(7, 70, 31);
+    background:lightgray;
     position:relative;
-    padding:1rem;
 }
 
 .cards img{
     position:absolute;
-    height:30vh
 }
 
-#value-numberP, #total-valueP{
-    display: inline;
+#result{
+    font-size: 4rem;
+    display:grid;
+    
 }
