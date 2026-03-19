@@ -101,6 +101,7 @@ body,
     height:80%;
     position:relative;
     display:grid;
+    gap: 6rem;
     justify-items:center;
 }
 
@@ -113,10 +114,16 @@ body,
 
 .cards img{
     position:absolute;
+    scale: 0.7;
+
+
 }
 
 #result{
     font-size: 4rem;
     display:grid;
     
+}
+button{
+    background: white;
 }

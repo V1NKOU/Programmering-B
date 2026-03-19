@@ -165,6 +165,19 @@ async function drawCard(newState){
         showCards()
         state = "player"
     }
+    if(state == playerLose) {
+        var player = {
+            cards:[],
+            total:0
+        }
+
+        var dealer = {
+            cards: [],
+            total:0
+        }
+        state = "begin"
+        getDeck()
+    }
 
 }
 
