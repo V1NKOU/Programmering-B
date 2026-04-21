@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web template with p5.js</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
+    <script src="./firebase.js"></script>
+
+
+</head>
+
+<body>
+    <main>
+        <div class="page" id="page1">
+            <h1>Quote-collection</h1>
+            <div class="inputWrapper">
+                <input id="inputField" placeholder="Skriv dit quote her..." name="Skrivefeld">
+                <input id="inputField2" placeholder="Skriv afsenderen her..." name="Afsender">
+            </div>
+            <div id="quotes"></div>
+        </div>
+
+        </div>
+    </main>
+    <script src="./index.js"></script>
+</body>
+
+</html>

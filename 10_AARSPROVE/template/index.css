@@ -1,0 +1,166 @@
+body {
+    overflow: hidden;
+    background: #111;
+    color: white;
+    font-family: "Special Elite";
+}
+
+/* Sider — skjult til venstre, vist med .show */
+.page {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -100vw;
+    transition: left 0.5s ease-in-out;
+    background-size: cover;
+    background-position: center;
+}
+.page.show { left: 0; }
+
+/* Overlay — centreret indhold oven på baggrund */
+.overlay {
+    display: grid;
+    place-items: center;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    text-align: center;
+}
+
+/* Hint — tekst i nedre venstre hjørne */
+.hint {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.5rem;
+    z-index: 10;
+}
+
+
+.suspect {
+    position: absolute;
+    z-index: 5;
+    top: 15vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.suspect img {
+    display: flex;
+    height: 60vh;
+    width: auto;
+    transition: transform 0.2s;
+    justify-self: center;
+}
+
+.suspect:hover img{
+    transform: scale(1.1);
+}
+
+.suspect span {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+}
+.suspect:hover span{
+    opacity: 1;
+    pointer-events: all;
+    
+}
+
+.suspect-option {
+    display: inline-flex;
+    padding: 1rem;
+    top: -100px;
+    background: linear-gradient(rgb(223, 24, 24), rgb(161, 31, 11));
+    border-radius: 5px;
+    border: 1px solid rgb(114, 11, 11);
+    transition: 0.2s cubic-bezier(.52,1.27,.89,1.27);
+    cursor: pointer;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+    
+}
+
+.suspect-option:hover {
+    scale: 1.15;
+    background: linear-gradient(rgb(184, 61, 61), rgb(133, 38, 23));
+    color: rgb(255, 255, 255);
+    user-select: none;
+}
+
+.suspect-options {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    gap: 1rem;
+    animation: optAppear 0.2s ease-in-out;
+}
+
+
+#suspect1 { left: 16.66%; transform: translateX(-50%); }
+#suspect2 { left: 50%;    transform: translateX(-50%); }
+#suspect3 { left: 83.33%; transform: translateX(-50%); }
+
+/* Hotspot — klikbart element placeret i et rum */
+.hotspot {
+    position: absolute;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.hotspot:hover { transform: scale(1.3); }
+
+button { background: white; }
+
+/* Code-input — skjult, vises med .show */
+.code-input {
+    position: absolute;
+    inset: 0;
+    display: none;
+    place-items: center;
+    background: rgba(0, 0, 0, 0.75);
+    z-index: 20;
+}
+.code-input.show { display: grid; }
+
+
+/* Timer */
+#timer {
+    position: fixed;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 0.4rem 1rem;
+    border-radius: 0.5rem;
+    z-index: 100;
+}
+
+/* High score liste */
+#score-list { list-style: none; }
+#score-list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ---- Rum-baggrunde ---- */
+#start    { background-image: url('./assets/detectiveBg.jpg'); }
+#main-room    { background-image: url('./assets/roomBg.jpg'); }
+#room2    { background-image: url('./assets/skies.jpg'); }
+/*#end-screen { background-image: url('./assets/skies.jpg'); }*/
+
+
+#room2 #cloud1 { top: 25%; left: 25%; font-size: 2.5rem; }
+#room2 #cloud2 { top: 35%; left: 60%; font-size: 4rem; }
+#room2 #cloud3 { top: 20%; left: 45%; font-size: 3rem; }
