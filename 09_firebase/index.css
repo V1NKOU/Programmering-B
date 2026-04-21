@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap');
+
+
+h1 {
+    font-family: Lexend;
+    font-weight: 600;
+    color: whitesmoke;
+}
+
+body,
+* {
+    font-family: "open sans";
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    /* grid layout */
+    display: flex;
+    place-items: center;
+    position: fixed;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5rem;
+    background-image: linear-gradient(to bottom right, rgb(0, 208, 255), rgb(11, 77, 148));
+}
+
+input {
+    padding: 0.7rem;
+    width: 30vw;
+    height: 6vh;
+    border-radius: 12px;
+    background-color: whitesmoke;
+    transition: 0.2s;
+    border: 2px solid rgb(56, 36, 168);
+}
+
+input:hover {
+    box-shadow: 0px 0px 10px 2px rgb(66, 84, 142);
+}
+
+input:focus {
+    scale: 1.12;
+    outline: none;
+    margin-right: 2rem;
+    margin-left: 2rem;
+}
+.newQuote {
+    width: 40vw;
+}
+
+p {
+    font-family: Lexend;
+    margin: 0;
+}
+
+#quotes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    width: 60vw;
+    height: 35vh;
+    overflow-y: scroll;
+    max-height: 50vh;
+    box-shadow: 0px 10px 6px -6px rgba(31, 31, 107, 0.454), 0px -10px 8px -8px rgba(31, 31, 107, 0.454);
+    border-bottom: 2px solid rgba(20, 20, 106, 0.459);
+    border-top: 2px solid rgba(20, 20, 106, 0.459);
+}
+
+#quotes::-webkit-scrollbar {
+    width: 8px;
+    background-color: rgba(255, 0, 0, 0);
+}
+
+#quotes::-webkit-scrollbar-thumb {
+  background: #2f2d938b;
+  border-radius: 4px;
+}
+
+.quote {
+    display: flex;
+    background-color: whitesmoke;
+    flex-direction: column;
+    padding: 1rem;
+    margin: 1rem;
+    border: 2px solid rgb(62, 106, 172);
+    border-radius: 10px;
+    transition: 0.2s;
+    position: relative;
+    padding-right: 3.2rem;
+    padding-bottom: 3rem;
+    word-break: break-word;
+}
+
+.quote:hover {
+    scale: 1.05;
+}
+
+.deleteBtn {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.deleteBtn:hover {
+    transform: translateY(-3px);
+    scale: 1.1;
+}
+
+.quoteDate {
+    position: absolute;
+    bottom: 5px;
+    color: #3c394f99;
+}
