@@ -7,7 +7,7 @@
     <!-- FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Lexend:wght@100..900&family=Special+Elite&display=swap" rel="stylesheet">
     <title>Dihtektiv</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
         integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
@@ -17,6 +17,7 @@
     <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
     <script src="./firebase.js"></script>
+    <link rel="icon" type="image/x-icon" href="./assets/glass.ico">
 </head>
 
 <body>
@@ -25,7 +26,7 @@
     <main>
 
         <!-- STARTSIDE -->
-        <div class="page" id="start" title="Start">
+        <div class="page" id="start">
             <div class="overlay">
                 <h1>Dihtektiv</h1>
                 <p>Din eneste opgave er at finde morderen.<br>
@@ -38,36 +39,46 @@
             </div>
         </div>
 
-        <!-- RUM 1: MISTÆNKTE -->
+        <!-- MISTÆNKTE -->
         <div class="page" id="main-room">
             <div id="main-room-hint" class="hint">Klik på en af de mistænkte eller gå til gerningsstedet.</div>
 
             <div class="suspect" id="suspect1">
                 <img src="./assets/person1.png" alt="Mistænkt1" id="suspect1img">
                 <span class="suspect-options"">
-                    <a onclick="interrogate(1);" class="suspect-option">Forhør</a>
-                    <a onclick="confirmGuess(1);" class="suspect-option">Anklag</a>
+                    <button onclick="interrogate(1);" class="suspect-option greyStandardBox">Forhør</button>
+                    <button onclick="confirmGuess(1);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
             <div class="suspect" id="suspect2">
                 <img src="./assets/person2.png" alt="Mistænkt2" id="suspect2img">
                 <span class="suspect-options">
-                    <a onclick="interrogate(2);" class="suspect-option">Forhør</a>
-                    <a onclick="confirmGuess(2);" class="suspect-option">Anklag</a>
+                    <button onclick="interrogate(2);" class="suspect-option greyStandardBox">Forhør</button>
+                    <button onclick="confirmGuess(2);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
             <div class="suspect" id="suspect3">
                 <img src="./assets/person3.png" alt="Mistænkt3" id="suspect3img">
                 <span class="suspect-options"">
-                    <a onclick="interrogate(3);" class="suspect-option">Forhør</a>
-                    <a onclick="confirmGuess(3);" class="suspect-option">Anklag</a>
+                    <button onclick="interrogate(3);" class="suspect-option greyStandardBox">Forhør</button>
+                    <button onclick="confirmGuess(3);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
         </div>
 
-        <!-- RUM 2: FORHØRING -->
-        <div class="page" id="interrogation-room" title="Forhøringsrum">
-
+        <!-- FORHØRINGSRUM -->
+        <div class="page" id="interrogation-room">
+            <button onclick="shiftPage('#main-room'); document.getElementById('interrogation-room').addEventListener('transitionend', () => activeInterrogant.style.display = 'none', {once: true})" class="backBtn greyStandardBox" id="intBackBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
+            <div id="interrogation-room-hint" class="hint">Stil den mistænkte spørgsmål. Genstande kan give flere muligheder.</div>
+            <img src="./assets/person1.png" alt="Mistænkt1" id="interrogant1" class="interrogant" style="display: none;">
+            <img src="./assets/person2.png" alt="Mistænkt2" id="interrogant2" class="interrogant" style="display: none;">
+            <img src="./assets/person3.png" alt="Mistænkt3" id="interrogant3" class="interrogant" style="display: none;">
+            <span id="dialogOptContainer">
+                <button id="dialogOpt1" class="dialogOpt greyStandardBox"></button>
+                <button id="dialogOpt2" class="dialogOpt greyStandardBox"></button>
+                <button id="dialogOpt3" class="dialogOpt greyStandardBox"></button>
+                <button id="dialogOpt4" class="dialogOpt greyStandardBox"></button>
+            </span>
         </div>
 
         <!-- SLUTSIDE -->

@@ -122,7 +122,12 @@ function startGame() {
 // RUM 2: GERNINGSSCENE
 // ============================================
 
+    function interrogate(interrogantNumber) {
+        shiftPage("#interrogation-room")
+        activeInterrogant = document.getElementsByClassName("interrogant")[interrogantNumber-1]
+        activeInterrogant.style.display = "flex"
 
+    }
 
 // ============================================
 // HIGH SCORE (Firestore)
