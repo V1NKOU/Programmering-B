@@ -5,7 +5,96 @@ var currentPage = '#start'
 var gameState = 0
 var timerInterval = null
 var seconds = 0
-var currentSuspect = Math.floor(Math.random()*4)
+var currentSuspect = Math.floor(Math.random()*3) + 1
+const gameCharacters = {
+       asta: {
+            hilsen: "Yooooo",
+            spørgsmål: {
+                uskyldig: [
+                    {
+                        tekst: "hvad laver du",
+                        svar: "Øhh idk",
+                        kræver_genstand: null
+                    },
+                    {
+                        tekst: "Er det dig der dræbte bro?",
+                        svar: "Nej da!",
+                        kræver_genstand: null
+                    }
+                ],   
+                skyldig: [
+                    {
+                        tekst: "hvad laver du",
+                        svar: "Øhh idk (EVILLY)",
+                        kræver_genstand: null
+                    },
+                    {
+                        tekst: "Er det dig der dræbte bro?",
+                        svar: "Ummm nejjjj",
+                        kræver_genstand: null
+                    }
+                ]   
+            }
+        },
+        ludvig: {
+            hilsen: "Eooow dig",
+            spørgsmål: {
+                uskyldig: [
+                    {
+                        tekst: "hvad laver du",
+                        svar: "er sej",
+                        kræver_genstand: null
+                    },
+                    {
+                        tekst: "Er det dig der dræbte bro?",
+                        svar: "nah bro trust",
+                        kræver_genstand: null
+                    }
+                ],   
+                skyldig: [
+                    {
+                        tekst: "hvad laver du",
+                        svar: "er ond",
+                        kræver_genstand: null
+                    },
+                    {
+                        tekst: "Er det dig der dræbte bro?",
+                        svar: "nah bro.",
+                        kræver_genstand: null
+                    }
+                ]   
+            }
+        },
+        john: {
+            hilsen: "nigga",
+            spørgsmål: {
+                uskyldig: [
+                    {
+                        tekst: "hvad laver du",
+                        svar: "aurafarmer.",
+                        kræver_genstand: null
+                    },
+                    {
+                        tekst: "Er det dig der dræbte bro?",
+                        svar: "nuh uh",
+                        kræver_genstand: null
+                    }
+                ],   
+                skyldig: [
+                    {
+                        tekst: "hvad laver du",
+                        svar: "er bare en lille submissive femboy UwU",
+                        kræver_genstand: null
+                    },
+                    {
+                        tekst: "Er det dig der dræbte bro?",
+                        svar: "nej b",
+                        kræver_genstand: null
+                    }
+                ]   
+            }
+        },
+}
 
 // Firestore reference
 var scoresRef = db.collection('highscores')
@@ -23,20 +112,6 @@ function setup() {
         startGame()
     })
 
-
-    
-
-
-
-
-    // ---- RUM 2: Skyer ----
-    // select('#room2 #cloud1').mousePressed(() => clickCloud('cloud1'))
-    // select('#room2 #cloud2').mousePressed(() => clickCloud('cloud2'))
-    // select('#room2 #cloud3').mousePressed(() => clickCloud('cloud3'))
-
-    // select('#room2 #room2-submit').mousePressed(() => {
-    //     checkRoom2Answer()
-    // })
 
     // ---- SLUTSIDE ----
     select('#btn-save').mousePressed(() => {
@@ -85,23 +160,6 @@ function startGame() {
 // ============================================
 // RUM 1: MISTÆNKTE
 // ============================================
-/*function hoverSuspect(suspectNumber) {
-    const suspectEl = document.getElementById("suspect" + suspectNumber)
-    if (suspectEl.querySelector('.suspect-options')) return
-
-    const suspectOptions = document.createElement("div")
-    suspectOptions.classList.add("suspect-options")
-    const interrogateBtn = document.createElement("div")
-    interrogateBtn.textContent = "Forhør"
-    interrogateBtn.classList.add("suspect-option")
-    const accuseBtn = document.createElement("div")
-    accuseBtn.textContent = "Anklag"
-    accuseBtn.classList.add("suspect-option")
-    suspectOptions.appendChild(interrogateBtn)
-    suspectOptions.appendChild(accuseBtn)
-    suspectEl.appendChild(suspectOptions)
-    suspectEl.addEventListener('mouseleave', () => suspectOptions.remove(), { once: true })
-}*/
 
     function confirmGuess(suspectNumber) {
         if(confirm("Er du sikker? Når du anklager personen kan du ikke gå tilbage. Sørg for at have fundet beviser først!")) {
@@ -126,6 +184,21 @@ function startGame() {
         shiftPage("#interrogation-room")
         activeInterrogant = document.getElementsByClassName("interrogant")[interrogantNumber-1]
         activeInterrogant.style.display = "flex"
+
+        // SÆT "KARAKTEREN" TIL AT VÆRE ET ARRAY AF OBJEKTETS VÆRDIER, 
+        // OG TAG INDEKSET AF interrogantNumber (1-3) og - 1 
+        const character = Object.values(gameCharacters)[interrogantNumber - 1]
+        const questions = character.spørgsmål[interrogantNumber === currentSuspect ? "skyldig" : "uskyldig"]
+        //TØM KASSEN FOR GAMLE KNAPPER
+        document.getElementById("dialogOptContainer").innerHTML = ""
+        //SKAB KNAPPER FOR HVERT SPØRGSMÅL
+        for (let i = 0; i < questions.length; i++) {
+        const questionBtn = document.createElement("button")
+        questionBtn.classList.add("dialogOpt","greyStandardBox")
+        questionBtn.textContent = questions[i].tekst
+        questionBtn.onclick = () => console.log(questions[i].svar)
+        document.getElementById("dialogOptContainer").appendChild(questionBtn)
+        }
 
     }
 

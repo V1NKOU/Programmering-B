@@ -206,7 +206,7 @@ button {
 .greyStandardBox:hover {
     box-shadow: 0px 0px 10px rgb(0, 216, 0);
     border: 2px solid rgb(214, 210, 210);
-    transform: translateY(-0.7vh);
+    transform: translateY(-0.9vh);
 
 }
 
