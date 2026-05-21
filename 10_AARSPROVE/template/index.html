@@ -44,22 +44,22 @@
             <div id="main-room-hint" class="hint">Klik på en af de mistænkte eller gå til gerningsstedet.</div>
 
             <div class="suspect" id="suspect1">
-                <img src="./assets/person1.png" alt="Mistænkt1" id="suspect1img">
-                <span class="suspect-options"">
+                <img src="./assets/animations/suspect1idle/frame3.png" alt="Gilbert" id="room1suspect1img">
+                <span class="suspect-options">
                     <button onclick="interrogate(1);" class="suspect-option greyStandardBox">Forhør</button>
                     <button onclick="confirmGuess(1);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
             <div class="suspect" id="suspect2">
-                <img src="./assets/person2.png" alt="Mistænkt2" id="suspect2img">
+                <img src="./assets/animations/suspect2idle/frame1.png" alt="Asta" id="room1suspect2img">
                 <span class="suspect-options">
                     <button onclick="interrogate(2);" class="suspect-option greyStandardBox">Forhør</button>
                     <button onclick="confirmGuess(2);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
             <div class="suspect" id="suspect3">
-                <img src="./assets/person3.png" alt="Mistænkt3" id="suspect3img">
-                <span class="suspect-options"">
+                <img src="./assets/animations/suspect3idle/frame5.png" alt="Ludvig" id="room1suspect3img">
+                <span class="suspect-options">
                     <button onclick="interrogate(3);" class="suspect-option greyStandardBox">Forhør</button>
                     <button onclick="confirmGuess(3);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
@@ -68,11 +68,16 @@
 
         <!-- FORHØRINGSRUM -->
         <div class="page" id="interrogation-room">
-            <button onclick="shiftPage('#main-room'); document.getElementById('interrogation-room').addEventListener('transitionend', () => activeInterrogant.style.display = 'none', {once: true})" class="backBtn greyStandardBox" id="intBackBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
+            <button onclick="backBtn()" class="backBtn greyStandardBox" id="intBackBtn"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
+            <span id="answer-container" class="hidden">
+                <h2 id="answer-name"></h2>
+                <p id="answer-text"></p>
+            </span>
             <div id="interrogation-room-hint" class="hint">Stil den mistænkte spørgsmål. Genstande kan give flere muligheder.</div>
-            <img src="./assets/person1.png" alt="Mistænkt1" id="interrogant1" class="interrogant" style="display: none;">
-            <img src="./assets/person2.png" alt="Mistænkt2" id="interrogant2" class="interrogant" style="display: none;">
-            <img src="./assets/person3.png" alt="Mistænkt3" id="interrogant3" class="interrogant" style="display: none;">
+            <img src="./assets/animations/suspect1idle/frame3.png" alt="Gilbert" id="room2suspect1img" class="interrogant" style="display: none;">
+            <img src="./assets/animations/suspect2idle/frame1.png" alt="Asta" id="room2suspect2img" class="interrogant" style="display: none;">
+            <img src="./assets/animations/suspect3idle/frame5.png" alt="Ludvig" id="room2suspect3img" class="interrogant" style="display: none;">
+            <img src="./assets/interrogation-room-table.png" alt="bord" id="interrogation-table">
             <span id="dialogOptContainer"></span>
         </div>
 

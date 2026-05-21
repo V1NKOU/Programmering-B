@@ -6,95 +6,149 @@ var gameState = 0
 var timerInterval = null
 var seconds = 0
 var currentSuspect = Math.floor(Math.random()*3) + 1
+// KARAKTERERNES INFORMATIONER OG SVAR (MORDER/IKKE MORDER)
 const gameCharacters = {
-       asta: {
-            hilsen: "Yooooo",
-            spørgsmål: {
-                uskyldig: [
-                    {
-                        tekst: "hvad laver du",
-                        svar: "Øhh idk",
-                        kræver_genstand: null
-                    },
-                    {
-                        tekst: "Er det dig der dræbte bro?",
-                        svar: "Nej da!",
-                        kræver_genstand: null
-                    }
-                ],   
-                skyldig: [
-                    {
-                        tekst: "hvad laver du",
-                        svar: "Øhh idk (EVILLY)",
-                        kræver_genstand: null
-                    },
-                    {
-                        tekst: "Er det dig der dræbte bro?",
-                        svar: "Ummm nejjjj",
-                        kræver_genstand: null
-                    }
-                ]   
-            }
-        },
-        ludvig: {
-            hilsen: "Eooow dig",
-            spørgsmål: {
-                uskyldig: [
-                    {
-                        tekst: "hvad laver du",
-                        svar: "er sej",
-                        kræver_genstand: null
-                    },
-                    {
-                        tekst: "Er det dig der dræbte bro?",
-                        svar: "nah bro trust",
-                        kræver_genstand: null
-                    }
-                ],   
-                skyldig: [
-                    {
-                        tekst: "hvad laver du",
-                        svar: "er ond",
-                        kræver_genstand: null
-                    },
-                    {
-                        tekst: "Er det dig der dræbte bro?",
-                        svar: "nah bro.",
-                        kræver_genstand: null
-                    }
-                ]   
-            }
-        },
-        john: {
-            hilsen: "nigga",
-            spørgsmål: {
-                uskyldig: [
-                    {
-                        tekst: "hvad laver du",
-                        svar: "aurafarmer.",
-                        kræver_genstand: null
-                    },
-                    {
-                        tekst: "Er det dig der dræbte bro?",
-                        svar: "nuh uh",
-                        kræver_genstand: null
-                    }
-                ],   
-                skyldig: [
-                    {
-                        tekst: "hvad laver du",
-                        svar: "er bare en lille submissive femboy UwU",
-                        kræver_genstand: null
-                    },
-                    {
-                        tekst: "Er det dig der dræbte bro?",
-                        svar: "nej b",
-                        kræver_genstand: null
-                    }
-                ]   
-            }
-        },
+    gilbert: {
+        navn: "Gilbert",
+        hilsen: "Hej du!",
+        spørgsmål: {
+            uskyldig: [
+                {
+                    tekst: "hvad laver du",
+                    svar: "det gad du godt at vide hva",
+                    kræver_genstand: null
+                },
+                {
+                    tekst: "Er det dig der dræbte bro?",
+                    svar: "nah bro trust",
+                    kræver_genstand: null
+                }
+            ],   
+            skyldig: [
+                {
+                    tekst: "hvad laver du",
+                    svar: "er bare en lille submissive femboy UwU",
+                    kræver_genstand: null
+                },
+                {
+                    tekst: "Er det dig der dræbte bro?",
+                    svar: "nej b",
+                    kræver_genstand: null
+                }
+            ]   
+        }
+    },
+    asta: {
+        navn: "Asta",
+        hilsen: "Yooooo",
+        spørgsmål: {
+            uskyldig: [
+                {
+                    tekst: "hvad laver du",
+                    svar: "Øhh idk",
+                    kræver_genstand: null
+                },
+                {
+                    tekst: "Er det dig der dræbte bro?",
+                    svar: "Nej da!",
+                    kræver_genstand: null
+                }
+            ],   
+            skyldig: [
+                {
+                    tekst: "hvad laver du",
+                    svar: "Øhh idk (EVILLY)",
+                    kræver_genstand: null
+                },
+                {
+                    tekst: "Er det dig der dræbte bro?",
+                    svar: "Ummm nejjjj",
+                    kræver_genstand: null
+                }
+            ]   
+        }
+    },
+    ludvig: {
+        navn: "Ludvig",
+        hilsen: "Har du hørt om partyboks?",
+        spørgsmål: {
+            uskyldig: [
+                {
+                    tekst: "hvad laver du",
+                    svar: "er sej",
+                    kræver_genstand: null
+                },
+                {
+                    tekst: "Er det dig der dræbte bro?",
+                    svar: "nah bro trust",
+                    kræver_genstand: null
+                }
+            ],   
+            skyldig: [
+                {
+                    tekst: "hvad laver du",
+                    svar: "er ond",
+                    kræver_genstand: null
+                },
+                {
+                    tekst: "Er det dig der dræbte bro?",
+                    svar: "nah bro.",
+                    kræver_genstand: null
+                }
+            ]   
+        }
+    },
 }
+
+//ANIMATIONER!
+
+const animationer = {
+    1: {
+        idle: { frames: 6, ms: 150 },
+        angry: { frames: 6, ms: 150 },
+        greeting: { frames: 7, ms: 150 }
+    },
+    2: {
+        idle: { frames: 6, ms: 150 },
+        angry: { frames: 6, ms: 120 }
+    },
+    3: {
+        idle: { frames: 6, ms: 150 },
+        angry: { frames: 6, ms: 165 },
+        greeting: { frames: 9, ms: 125 }
+    }
+    
+}
+var animationIntervals = {}
+var currentFrames = {}
+
+function playAnimation(room, suspectNumber, animation) {
+    //LAV EN KONSTANT DER REFERERER TIL RUMMET OG DEN MISTÆNKTE DER KALDES MED SOM ARGUMENT
+    const key = `${room}_${suspectNumber}`
+    //RYD DET INTERVAL DER ALLEREDE ER I GANG VED KEY'EN
+    clearInterval(animationIntervals[key])
+    //SÆT FRAMEN TIL 1
+    currentFrames[key] = 1
+    //GEM DET SPECIFIKKE BILLEDE DER SKAL GEMMES SOM EN KONSTANT
+    const img = document.getElementById(`room${room}suspect${suspectNumber}img`)
+    //FÅ ANTAL FRAMES OG MS FRA HVER ANIMATION
+    const frames = animationer[suspectNumber][animation].frames
+    const ms = animationer[suspectNumber][animation].ms
+    //SÆT ET INTERVAL DER KØRES IGENNEM OG ÆNDRER BILLEDETS SOURCE
+    animationIntervals[key] = setInterval( () => {
+        img.src = `./assets/animations/suspect${suspectNumber}${animation}/frame${currentFrames[key]}.png`
+        if(currentFrames[key] < frames) {
+            currentFrames[key]++
+        } else {
+            currentFrames[key] = 1
+        }
+    }, ms)
+}
+
+
+
+
+
 
 // Firestore reference
 var scoresRef = db.collection('highscores')
@@ -121,6 +175,23 @@ function setup() {
     select('#btn-restart').mousePressed(() => {
         resetGame()
     })
+
+    //KØR ET LOOP FOR HVER SUSPECT DER SÆTTER EN EVENTLISTENER VED HOVER
+    // DER ÆNDRER ANIMATIONEN DER FJERNES NÅR HOVER STOPPER
+    for (let i = 1; i <= document.getElementsByClassName("suspect").length; i++) {
+        
+        document.getElementById(`suspect${i}`).addEventListener("mouseenter", () => {
+            playAnimation(1, i, "greeting")
+        })
+        document.getElementById(`suspect${i}`).addEventListener("mouseleave", () => {
+        playAnimation(1, i, "idle")
+        })
+    }
+
+    playAnimation(2, 1, "idle")
+    playAnimation(2, 2, "idle")
+    playAnimation(2, 3, "idle")
+
 }
 
 // ============================================
@@ -130,6 +201,17 @@ function shiftPage(newPage) {
     select(currentPage).removeClass('show')
     select(newPage).addClass('show')
     currentPage = newPage
+    clearInterval(animationIntervals)
+    for (const key in animationIntervals) {
+        clearInterval(animationIntervals[key])
+    }
+    if (newPage == "#main-room") {
+        playAnimation(1, 1, "idle")
+        playAnimation(1, 2, "idle")
+        playAnimation(1, 3, "idle")
+    }
+    
+
 }
 
 // ============================================
@@ -184,6 +266,7 @@ function startGame() {
         shiftPage("#interrogation-room")
         activeInterrogant = document.getElementsByClassName("interrogant")[interrogantNumber-1]
         activeInterrogant.style.display = "flex"
+        playAnimation(2, interrogantNumber, "idle")
 
         // SÆT "KARAKTEREN" TIL AT VÆRE ET ARRAY AF OBJEKTETS VÆRDIER, 
         // OG TAG INDEKSET AF interrogantNumber (1-3) og - 1 
@@ -196,10 +279,30 @@ function startGame() {
         const questionBtn = document.createElement("button")
         questionBtn.classList.add("dialogOpt","greyStandardBox")
         questionBtn.textContent = questions[i].tekst
-        questionBtn.onclick = () => console.log(questions[i].svar)
+        questionBtn.onclick = () => {
+            //GØR AT TEKSTEN TILFØJES TIL CONTAINEREN
+            document.getElementById("answer-container").classList.remove("hidden")
+            document.getElementById("answer-name").textContent = character.navn + ":"
+            document.getElementById("answer-text").textContent = questions[i].svar
+            playAnimation(2, interrogantNumber, "angry")
+            setTimeout(() => playAnimation(2, interrogantNumber, "idle"), 3500)
+
+        }
         document.getElementById("dialogOptContainer").appendChild(questionBtn)
         }
 
+        
+
+    }
+
+    function backBtn() {
+        shiftPage("#main-room")
+        document.getElementById('interrogation-room').addEventListener('transitionend', () => {
+            activeInterrogant.style.display = 'none'
+            document.getElementById("answer-container").classList.add("hidden")
+        }, {once: true}
+        )
+        
     }
 
 // ============================================
@@ -252,3 +355,4 @@ function resetGame() {
     }, {once: true})
 
 }
+

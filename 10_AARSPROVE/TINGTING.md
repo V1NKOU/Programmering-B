@@ -19,3 +19,10 @@
 - Den døde til intro-cutscene billede + lyd
 
 SØRG FOR AT GØRES BILLEDERNE AF DEM SAMME STØRRELSE
+
+# SCENARIER:
+
+## GILBERT ER MORDER
+
+## ASTA ER MORDER
+

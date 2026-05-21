@@ -42,7 +42,7 @@ body {
 .suspect {
     position: absolute;
     z-index: 5;
-    top: 15vh;
+    bottom: 8vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,9 +96,9 @@ body {
 }
 
 
-#suspect1 { left: 16.66%; transform: translateX(-50%); }
+#suspect1 { left: 24%; transform: translateX(-50%); }
 #suspect2 { left: 50%;    transform: translateX(-50%); }
-#suspect3 { left: 83.33%; transform: translateX(-50%); }
+#suspect3 { left: 76%; transform: translateX(-50%); }
 
 /* Hotspot — klikbart element placeret i et rum */
 
@@ -112,6 +112,10 @@ button {
     padding: 0;
     cursor: pointer;
     box-sizing: border-box;
+}
+button:focus {
+    color: white;
+    border-color: rgb(31, 29, 29);
 }
 
 /* Code-input — skjult, vises med .show */
@@ -149,37 +153,32 @@ button {
 }
 
 /* ---- Rum-baggrunde ---- */
-#start    { background-image: url('./assets/detectiveBg.jpg'); }
-#main-room    { background-image: url('./assets/roomBg.jpg'); }
-#interrogation-room    { background-image: url('./assets/interrogationRoom.jpg'); }
+#start    { background-image: url('./assets/title-screen.png'); }
+#main-room    { background-image: url('./assets/main-roomBg.png'); }
+#interrogation-room    { background-image: url('./assets/interrogation-roomBg.png'); }
 /*#end-screen { background-image: url('./assets/skies.jpg'); }*/
 
 
 .interrogant {
     position: absolute;
-    height: 66vh;
-}
-
-#interrogant1 {
-    rotate: 180deg;
-    left: 10vh;
-}
-
-#interrogant2 {
-    bottom: 5vh;
-    right: 10vh;
-}
-
-#interrogant3 {
+    height: 100vh;
+    bottom: -15vh;
     left: 50vw;
     transform: translateX(-50%);
-    top: 0vh;
+}
+
+
+#interrogation-table {
+    position: absolute;
+    width: 100vw;
+    height: auto;
+    bottom: -13vh;
 }
 
 #dialogOptContainer {
     position: absolute;
     left: 50vw;
-    top: 40vh;
+    bottom: 40vh;
     transform: translateX(-50%);
     display: grid;
     grid-template-columns: repeat(2, auto);
@@ -207,6 +206,7 @@ button {
     box-shadow: 0px 0px 10px rgb(0, 216, 0);
     border: 2px solid rgb(214, 210, 210);
     transform: translateY(-0.9vh);
+    color: white;
 
 }
 
@@ -232,3 +232,36 @@ button {
     fill: rgb(255, 255, 255);
 }
 
+#answer-container {
+    position: absolute;
+    height: 20vh;
+    width: 40vw;
+    display: flex;
+    justify-self: center;
+    top: 3vh;
+    background-color: #11111171;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.557), 0px 0px 5px rgba(202, 202, 202, 0.749);
+    backdrop-filter: blur(7px);
+    transition: 0.25s;
+    flex-direction: column;
+    
+}
+
+#answer-name {
+    font-size: 2rem;
+    color: rgba(220, 220, 220, 0.393);
+    padding: 0.8rem;
+    margin: 0;
+    padding-bottom: 0rem;
+}
+
+.hidden {
+    opacity: 0;
+    
+}
+
+#answer-text {
+    padding-left: 0.8rem;
+}
