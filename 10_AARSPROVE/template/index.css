@@ -25,7 +25,28 @@ body {
     height: 100%;
     background: rgba(0, 0, 0, 0.6);
     text-align: center;
+    position: relative;
+    z-index: 3;
 }
+#crime-scene .overlay {
+    /*LAVER EN OVAL I MIDTEN, DER ER GENNEMSIGTIG, SLØRET OG GÅR HELE VEJEN TIL KANTEN*/
+    background: radial-gradient(ellipse at center, 
+        transparent 10%, 
+        rgba(0, 0, 0, 0.75) 100%
+    );
+    pointer-events: none;
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    animation: atmosphericPulse 4s ease-in-out infinite;
+}
+
+@keyframes atmosphericPulse {
+    0%   { opacity: 1;}
+    50%  { opacity: 0.5;}
+    100% { opacity: 1;}
+}
+
 
 /* Hint — tekst i nedre venstre hjørne */
 .hint {
@@ -42,7 +63,7 @@ body {
 .suspect {
     position: absolute;
     z-index: 5;
-    bottom: 8vh;
+    bottom: 7vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -75,6 +96,7 @@ body {
 .suspect-option {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     padding: 2.3rem 1rem;
     transition: 0.2s cubic-bezier(.52,1.27,.89,1.27);
     cursor: pointer;
@@ -92,15 +114,23 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 22rem;
+}
+
+.suspect-options-row {
+    display: flex;
     gap: 1rem;
 }
 
 
+
+/*De 3 mistænktes placeringer*/
 #suspect1 { left: 24%; transform: translateX(-50%); }
-#suspect2 { left: 50%;    transform: translateX(-50%); }
+#suspect2 { left: 50%; transform: translateX(-50%); }
 #suspect3 { left: 76%; transform: translateX(-50%); }
 
-/* Hotspot — klikbart element placeret i et rum */
 
 
 
@@ -118,16 +148,6 @@ button:focus {
     border-color: rgb(31, 29, 29);
 }
 
-/* Code-input — skjult, vises med .show */
-.code-input {
-    position: absolute;
-    inset: 0;
-    display: none;
-    place-items: center;
-    background: rgba(0, 0, 0, 0.75);
-    z-index: 20;
-}
-.code-input.show { display: grid; }
 
 
 /* Timer */
@@ -144,7 +164,14 @@ button:focus {
 }
 
 /* High score liste */
-#score-list { list-style: none; }
+#score-list { 
+    list-style: none; 
+    max-height: 20vh;
+    overflow-y: scroll;
+    scrollbar-width: none;
+}
+
+
 #score-list li {
     display: flex;
     justify-content: space-between;
@@ -152,17 +179,96 @@ button:focus {
     border-bottom: 1px solid rgba(255,255,255,0.15);
 }
 
+#btn-start, #btn-restart {
+    font-size: 2rem;
+    padding: 2.3rem 6rem;
+    margin: 1rem 0;
+    letter-spacing: 0.3rem;
+    display: flex;
+    align-items: center;
+}
+
+
+#start-title, #end-title {
+    align-self: start;
+    margin-top: 5vh;
+}
+
+#final-time {
+    font-size: 2.3rem;
+    align-self: end;
+    margin: 0;
+}
+
+#save-score {
+    background: linear-gradient(170deg, rgb(60, 60, 65), rgb(38, 37, 39));
+    border-radius: 8px;
+    border: 2px solid rgba(130, 110, 70, 0.5);
+    box-shadow: 0px 0px 7px rgba(190, 150, 60, 0.7);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.5rem 2rem;
+
+}
+
+#player-name {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(130, 110, 70, 0.5);
+    border-radius: 6px;
+    color: rgb(200, 192, 175);
+    padding: 0.6rem 1rem;
+    font-family: "Crimson Text";
+    font-size: 1.4rem;
+    font-weight: 600;
+    letter-spacing: 0.1rem;
+    outline: none;
+    transition: 0.25s;
+}
+
+#player-name:focus {
+    border-color: rgba(200, 170, 80, 0.8);
+    box-shadow: 0px 0px 6px rgba(190, 150, 60, 0.5);
+}
+
+#player-name::placeholder {
+    color: rgba(200, 192, 175, 0.35);
+}
+
+#btn-save {
+    background: linear-gradient(170deg, rgb(60, 60, 65), rgb(38, 37, 39));
+    border-radius: 8px;
+    border: 2px solid rgba(130, 110, 70, 0.5);
+    box-shadow: 0px 0px 7px rgba(190, 150, 60, 0.7);
+    color: rgb(200, 192, 175);
+    font-family: "Crimson Text";
+    font-weight: 600;
+    font-size: 1.4rem;
+    letter-spacing: 0.2rem;
+    padding: 0.6rem 1rem;
+    cursor: pointer;
+    transition: 0.25s;
+    width: 100%;
+}
+
+#btn-save:hover {
+    box-shadow: 0px 0px 10px rgba(220, 175, 50, 0.7);
+    border-color: rgba(200, 170, 80, 0.8);
+    color: rgb(245, 235, 215);
+}
+
 /* ---- Rum-baggrunde ---- */
-#start    { background-image: url('./assets/title-screen.png'); }
-#main-room    { background-image: url('./assets/main-roomBg.png'); }
-#interrogation-room    { background-image: url('./assets/interrogation-roomBg.png'); }
-/*#end-screen { background-image: url('./assets/skies.jpg'); }*/
+#start              { background-image: url('./assets/title-screen.png'); }
+#main-room          { background-image: url('./assets/main-roomBg.png'); }
+#interrogation-room { background-image: url('./assets/interrogation-roomBg.png'); }
+#crime-scene        { background-image: url('./assets/crime-scene.png'); }
+#end-screen         { background-image: url('./assets/end-screen.png'); }
 
 
 .interrogant {
     position: absolute;
     height: 100vh;
-    bottom: -15vh;
+    bottom: -18vh;
     left: 50vw;
     transform: translateX(-50%);
 }
@@ -170,44 +276,57 @@ button:focus {
 
 #interrogation-table {
     position: absolute;
-    width: 100vw;
-    height: auto;
-    bottom: -13vh;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
 }
 
 #dialogOptContainer {
     position: absolute;
     left: 50vw;
-    bottom: 40vh;
+    top: 53vh;
     transform: translateX(-50%);
     display: grid;
     grid-template-columns: repeat(2, auto);
     gap: 1.5vw;
+    overflow-y: scroll;
+    padding: 0.5rem;
+    max-height: 40vh;
+    scrollbar-width: none;
+}
+
+#dialogOptContainer::-webkit-scrollbar {
+    display: none;
 }
 
 .dialogOpt {
-    height: 10vh;
+    min-height: 10vh;
+    height: auto;
     width: 45vh;
+    white-space: normal;
+    padding: 1vh 0.5vw;
 }
 .greyStandardBox {
-    
     background: linear-gradient(170deg, rgb(60, 60, 65), rgb(38, 37, 39));
     border-radius: 8px;
-    border: 2px solid rgb(31, 29, 29);
-    box-shadow: 0px 0px 7px rgb(0, 149, 255);
+    border: 2px solid rgba(130, 110, 70, 0.5);
+    box-shadow: 0px 0px 7px rgba(190, 150, 60, 0.7);
     transition: 0.25s;
     cursor: pointer;
     font-family: "Crimson Text";
     font-weight: 600;
-    color: rgb(194, 192, 192)
+    color: rgb(200, 192, 175);
+    letter-spacing: 0.2rem;
+    
 }
 
 .greyStandardBox:hover {
-    box-shadow: 0px 0px 10px rgb(0, 216, 0);
-    border: 2px solid rgb(214, 210, 210);
+    box-shadow: 0px 0px 10px rgba(220, 175, 50, 0.7);
+    border: 2px solid rgba(200, 170, 80, 0.8);
     transform: translateY(-0.9vh);
-    color: white;
-
+    color: rgb(245, 235, 215);
 }
 
 
@@ -232,26 +351,35 @@ button:focus {
     fill: rgb(255, 255, 255);
 }
 
-#answer-container {
+#item-container {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+#answer-container, #item-container {
     position: absolute;
-    height: 20vh;
+    height: auto;
+    min-height: 9vh;
     width: 40vw;
     display: flex;
     justify-self: center;
     top: 3vh;
-    background-color: #11111171;
+    background-color: #11111118;
     border: 2px solid black;
     border-radius: 10px;
-    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.557), 0px 0px 5px rgba(202, 202, 202, 0.749);
+    box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.557), 0px 0px 5px rgba(190, 150, 60, 0.7);
     backdrop-filter: blur(7px);
     transition: 0.25s;
     flex-direction: column;
-    
+    padding-bottom: 0.5rem;
+    user-select: none;
 }
 
-#answer-name {
+#answer-name, #item-name {
     font-size: 2rem;
-    color: rgba(220, 220, 220, 0.393);
+    color: rgba(233, 233, 233, 0.982);
     padding: 0.8rem;
     margin: 0;
     padding-bottom: 0rem;
@@ -259,9 +387,45 @@ button:focus {
 
 .hidden {
     opacity: 0;
-    
+    pointer-events: none;
 }
 
-#answer-text {
-    padding-left: 0.8rem;
+#answer-text, #item-description {
+    padding: 0 1rem;
+    margin: 0;
+    color: rgba(232, 232, 232, 0.911);;
+}
+
+.votedSuspect {
+    position: absolute;
+    display: flex;
+    justify-self: center;
+    bottom: 2vh;
+    z-index: 1;
+    height: 90vh;
+}
+
+#end-screen-bars {
+    left: 0;
+    top: 0;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 2;
+    object-fit: cover;
+    }
+
+#crimeSceneBtn {
+    position: absolute;
+    display: flex;
+    justify-self: center;
+    top: 3vh;
+    width: 25vw;
+    height: 8vh;
+    margin-right: 1vw;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 2;
 }

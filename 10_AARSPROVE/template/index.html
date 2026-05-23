@@ -28,10 +28,11 @@
         <!-- STARTSIDE -->
         <div class="page" id="start">
             <div class="overlay">
-                <h1>Dihtektiv</h1>
-                <p>Din eneste opgave er at finde morderen.<br>
-                    Hvordan? Det er op til dig at finde ud af.</p>
-                <button id="btn-start">Start spil</button>
+                <h1 id="start-title">Dihtektiv</h1>
+                <p>Der er begået et mord på din søster Rosa.<br>
+                    Det er nu din opgave at finde ud af hvem af <br>
+                    dine venner der har dræbt hende.</p>
+                <button id="btn-start"class="greyStandardBox">Start spil</button>
                 <div id="highscores">
                     <h2>High Scores</h2>
                     <ol id="score-list"></ol>
@@ -41,29 +42,39 @@
 
         <!-- MISTÆNKTE -->
         <div class="page" id="main-room">
-            <div id="main-room-hint" class="hint">Klik på en af de mistænkte eller gå til gerningsstedet.</div>
+            <div id="main-room-hint" class="hint">Forhør de mistænkte, find ledetråde i de forskellige rum, og anklag den du tror er skyldig!</div>
 
             <div class="suspect" id="suspect1">
                 <img src="./assets/animations/suspect1idle/frame3.png" alt="Gilbert" id="room1suspect1img">
                 <span class="suspect-options">
-                    <button onclick="interrogate(1);" class="suspect-option greyStandardBox">Forhør</button>
+                    <div class="suspect-options-row">
+                        <button onclick="interrogate(1);" class="suspect-option greyStandardBox">Forhør</button>
+                        <button onclick="enterRoom(1);" class="suspect-option greyStandardBox" style="width: 100%">Besøg</button>
+                    </div>
                     <button onclick="confirmGuess(1);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
             <div class="suspect" id="suspect2">
                 <img src="./assets/animations/suspect2idle/frame1.png" alt="Asta" id="room1suspect2img">
                 <span class="suspect-options">
-                    <button onclick="interrogate(2);" class="suspect-option greyStandardBox">Forhør</button>
+                    <div class="suspect-options-row">
+                        <button onclick="interrogate(2);" class="suspect-option greyStandardBox">Forhør</button>
+                        <button onclick="enterRoom(2);" class="suspect-option greyStandardBox" style="width: 100%">Besøg</button>
+                    </div>
                     <button onclick="confirmGuess(2);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
             <div class="suspect" id="suspect3">
                 <img src="./assets/animations/suspect3idle/frame5.png" alt="Ludvig" id="room1suspect3img">
                 <span class="suspect-options">
-                    <button onclick="interrogate(3);" class="suspect-option greyStandardBox">Forhør</button>
+                    <div class="suspect-options-row">
+                        <button onclick="interrogate(3);" class="suspect-option greyStandardBox">Forhør</button>
+                        <button onclick="enterRoom(3);" class="suspect-option greyStandardBox" style="width: 100%">Besøg</button>
+                    </div>
                     <button onclick="confirmGuess(3);" class="suspect-option greyStandardBox">Anklag</button>
                 </span>
             </div>
+            <div id="crimeSceneBtn" class="greyStandardBox" onclick="shiftPage('#crime-scene')">Gå til gerningssted</div>
         </div>
 
         <!-- FORHØRINGSRUM -->
@@ -74,28 +85,53 @@
                 <p id="answer-text"></p>
             </span>
             <div id="interrogation-room-hint" class="hint">Stil den mistænkte spørgsmål. Genstande kan give flere muligheder.</div>
-            <img src="./assets/animations/suspect1idle/frame3.png" alt="Gilbert" id="room2suspect1img" class="interrogant" style="display: none;">
-            <img src="./assets/animations/suspect2idle/frame1.png" alt="Asta" id="room2suspect2img" class="interrogant" style="display: none;">
-            <img src="./assets/animations/suspect3idle/frame5.png" alt="Ludvig" id="room2suspect3img" class="interrogant" style="display: none;">
+            <img src="" alt="Interrogant" id="" class="interrogant" style="display: none;">
             <img src="./assets/interrogation-room-table.png" alt="bord" id="interrogation-table">
             <span id="dialogOptContainer"></span>
         </div>
+
+        <!--GERNINGSSTED-->
+        <div class="page" id="crime-scene">
+            <div id="crime-scene-hint" class="hint">Kig godt efter for skjulte genstande. Find og klik på dem for at oplåse nye forhøringsspørgsmål</div>
+            <button onclick="shiftPage('#main-room')" class="backBtn greyStandardBox"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
+            <div class="overlay"></div>
+            <div id="crime-scene-container"></div>
+        </div>
+
+        <!--MISTÆNKTES RUM-->
+        <div class="page" id="suspect-room">
+            <div id="suspect-room-hint" class="hint">Kig godt efter for skjulte genstande. Find og klik på dem for at oplåse nye forhøringsspørgsmål</div>
+            <button onclick="shiftPage('#main-room')" class="backBtn greyStandardBox"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="M280-200v-80h284q63 0 109.5-40T720-420q0-60-46.5-100T564-560H312l104 104-56 56-200-200 200-200 56 56-104 104h252q97 0 166.5 63T800-420q0 94-69.5 157T564-200H280Z"/></svg></button>
+            <div id="suspect-room-container"></div>
+        </div>
+
+        <!-- DELT ITEM-POPUP (bruges af crime-scene og suspect-room) -->
+        <span id="item-container" class="hidden">
+            <h2 id="item-name"></h2>
+            <p id="item-description"></p>
+        </span>
 
         <!-- SLUTSIDE -->
         <div class="page" id="end-screen">
             <div class="overlay">
                 <h1 id="end-title"></h1>
                 <p id="final-time"></p>
-                <div id="save-score">
+                <span id="save-score" class="">
                     <input type="text" id="player-name" placeholder="Dit navn">
                     <button id="btn-save">Gem high score</button>
-                </div>
-                <button id="btn-restart">Spil igen</button>
+                </span>
+                <button id="btn-restart" class="greyStandardBox">Spil igen</button>
             </div>
+            <img src="" alt="votedSuspect" id="" class="votedSuspect" style="display: none;">
+            <img src="./assets/end-screen-bars.png" alt="prison-bars" id="end-screen-bars">
+
         </div>
 
     </main>
-    <script src="./index.js"></script>
-</body>
 
+<script src="./characters.js"></script>
+<script src="./scenarios.js"></script>
+<script src="./index.js"></script>
+
+</body>
 </html>

@@ -2,105 +2,23 @@
 // STATE
 // ============================================
 var currentPage = '#start'
-var gameState = 0
 var timerInterval = null
 var seconds = 0
-var currentSuspect = Math.floor(Math.random()*3) + 1
-// KARAKTERERNES INFORMATIONER OG SVAR (MORDER/IKKE MORDER)
-const gameCharacters = {
-    gilbert: {
-        navn: "Gilbert",
-        hilsen: "Hej du!",
-        spørgsmål: {
-            uskyldig: [
-                {
-                    tekst: "hvad laver du",
-                    svar: "det gad du godt at vide hva",
-                    kræver_genstand: null
-                },
-                {
-                    tekst: "Er det dig der dræbte bro?",
-                    svar: "nah bro trust",
-                    kræver_genstand: null
-                }
-            ],   
-            skyldig: [
-                {
-                    tekst: "hvad laver du",
-                    svar: "er bare en lille submissive femboy UwU",
-                    kræver_genstand: null
-                },
-                {
-                    tekst: "Er det dig der dræbte bro?",
-                    svar: "nej b",
-                    kræver_genstand: null
-                }
-            ]   
-        }
-    },
-    asta: {
-        navn: "Asta",
-        hilsen: "Yooooo",
-        spørgsmål: {
-            uskyldig: [
-                {
-                    tekst: "hvad laver du",
-                    svar: "Øhh idk",
-                    kræver_genstand: null
-                },
-                {
-                    tekst: "Er det dig der dræbte bro?",
-                    svar: "Nej da!",
-                    kræver_genstand: null
-                }
-            ],   
-            skyldig: [
-                {
-                    tekst: "hvad laver du",
-                    svar: "Øhh idk (EVILLY)",
-                    kræver_genstand: null
-                },
-                {
-                    tekst: "Er det dig der dræbte bro?",
-                    svar: "Ummm nejjjj",
-                    kræver_genstand: null
-                }
-            ]   
-        }
-    },
-    ludvig: {
-        navn: "Ludvig",
-        hilsen: "Har du hørt om partyboks?",
-        spørgsmål: {
-            uskyldig: [
-                {
-                    tekst: "hvad laver du",
-                    svar: "er sej",
-                    kræver_genstand: null
-                },
-                {
-                    tekst: "Er det dig der dræbte bro?",
-                    svar: "nah bro trust",
-                    kræver_genstand: null
-                }
-            ],   
-            skyldig: [
-                {
-                    tekst: "hvad laver du",
-                    svar: "er ond",
-                    kræver_genstand: null
-                },
-                {
-                    tekst: "Er det dig der dræbte bro?",
-                    svar: "nah bro.",
-                    kræver_genstand: null
-                }
-            ]   
-        }
-    },
-}
+var itemsFound = []
+var askedQuestions = []
+var currentScenario = null
+var animationIntervals = {}
+var currentFrames = {}
+var typingInterval = null
+var itemTimeout = null
+var suspectsRoom = {}
+// Firestore reference
+var scoresRef = db.collection('highscores')
 
-//ANIMATIONER!
+
+// ============================================
+// ANIMATIONER
+// ============================================
 
 const animationer = {
     1: {
@@ -110,17 +28,17 @@ const animationer = {
     },
     2: {
         idle: { frames: 6, ms: 150 },
-        angry: { frames: 6, ms: 120 }
+        angry: { frames: 6, ms: 120 },
+        greeting: { frames: 5, ms: 180 }
     },
     3: {
         idle: { frames: 6, ms: 150 },
-        angry: { frames: 6, ms: 165 },
+        angry: { frames: 6, ms: 150 },
         greeting: { frames: 9, ms: 125 }
     }
     
 }
-var animationIntervals = {}
-var currentFrames = {}
+
 
 function playAnimation(room, suspectNumber, animation) {
     //LAV EN KONSTANT DER REFERERER TIL RUMMET OG DEN MISTÆNKTE DER KALDES MED SOM ARGUMENT
@@ -150,8 +68,7 @@ function playAnimation(room, suspectNumber, animation) {
 
 
 
-// Firestore reference
-var scoresRef = db.collection('highscores')
+
 
 // ============================================
 // SETUP — kaldes én gang af p5.js
@@ -188,9 +105,6 @@ function setup() {
         })
     }
 
-    playAnimation(2, 1, "idle")
-    playAnimation(2, 2, "idle")
-    playAnimation(2, 3, "idle")
 
 }
 
@@ -201,6 +115,7 @@ function shiftPage(newPage) {
     select(currentPage).removeClass('show')
     select(newPage).addClass('show')
     currentPage = newPage
+    document.getElementById("item-container").classList.add("hidden")
     clearInterval(animationIntervals)
     for (const key in animationIntervals) {
         clearInterval(animationIntervals[key])
@@ -210,6 +125,15 @@ function shiftPage(newPage) {
         playAnimation(1, 2, "idle")
         playAnimation(1, 3, "idle")
     }
+    if (newPage == "#crime-scene") {
+        document.getElementById("crime-scene-container").innerHTML = ""
+        loadItems("parkeringsplads", "crime-scene-container")
+    }
+    if (newPage == "#suspect-room") {
+        document.getElementById("suspect-room-container").innerHTML = ""
+        loadItems(suspectsRoom, "suspect-room-container")
+    }
+
     
 
 }
@@ -218,6 +142,7 @@ function shiftPage(newPage) {
 // TIMER — tæller 1 op hvert sekund
 // ============================================
 function startTimer() {
+    stopTimer()
     seconds = 0
     timerInterval = setInterval(() => {
         seconds++
@@ -233,71 +158,151 @@ function stopTimer() {
 // START SPIL
 // ============================================
 function startGame() {
-    gameState = 0
-    cloudStep = 0
+    itemsFound = []
+    askedQuestions = []
+    suspectsRoom = null
+    clearInterval(typingInterval)
+    clearTimeout(itemTimeout)
+    currentScenario = gameScenarios[Math.floor(Math.random()*gameScenarios.length)]
     startTimer()
     shiftPage('#main-room')
+    console.log(currentScenario.morder)
 }
 
 // ============================================
-// RUM 1: MISTÆNKTE
+// CREATE ITEMS
+// ============================================
+function loadItems(rumNavn, containerId) {
+    document.getElementById("item-container").classList.add("hidden")
+    const items = currentScenario.genstande[rumNavn]
+    const container = document.getElementById(containerId)
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i]
+        const img = document.createElement("img")
+        img.src = `./assets/items/${item.id}.png`
+        img.style.position = "absolute"
+        img.style.top = item.top
+        img.style.left = item.left
+        img.style.width = item.størrelse
+        img.style.zIndex = "1"
+        img.onclick = () => {
+            if (!itemsFound.includes(item.id)) itemsFound.push(item.id)
+            document.getElementById("item-name").textContent = item.navn
+            document.getElementById("item-description").textContent = item.beskrivelse
+            document.getElementById("item-container").classList.remove("hidden")
+            clearTimeout(itemTimeout)
+            itemTimeout = setTimeout(() => {
+                document.getElementById("item-container").classList.add("hidden")
+            }, 5000)
+        }
+        container.appendChild(img)
+    }
+}
+
+
+
+
+
+// ============================================
+// MISTÆNKTE
 // ============================================
 
     function confirmGuess(suspectNumber) {
         if(confirm("Er du sikker? Når du anklager personen kan du ikke gå tilbage. Sørg for at have fundet beviser først!")) {
+            votedSuspect = document.querySelector(".votedSuspect")
+            votedSuspect.id = `room3suspect${suspectNumber}img`
+            votedSuspect.style.display = "flex"
+            votedSuspect.src = `./assets/animations/suspect${suspectNumber}angry/frame1.png`
             shiftPage("#end-screen")
+            playAnimation(3, suspectNumber, "angry")
             stopTimer()
-            if(suspectNumber == currentSuspect) {
+            if(suspectNumber == currentScenario.morder) {
+                document.getElementById("save-score").style.display = "grid"
+                document.getElementById("final-time").textContent = `Endelig tid: ${seconds} sekunder`
                 document.getElementById("end-title").textContent = "Du fandt morderen!"
-                document.getElementById("end-screen").style.backgroundImage = "url('assets/winscreen.jpg')"
+                document.getElementById("end-title").style.textShadow = "0px 0px 10px green"
             } else {
                 document.getElementById("end-title").textContent = "Du gættede forkert."
-                document.getElementById("end-screen").style.backgroundImage = "url('assets/fnafLose.jpg')"
+                document.getElementById("end-title").style.textShadow = "0px 0px 10px red"
                 document.getElementById("save-score").style.display = "none"
             }
         }
     }
 
 // ============================================
-// RUM 2: GERNINGSSCENE
+// FORHØRINGSRUM
 // ============================================
 
     function interrogate(interrogantNumber) {
         shiftPage("#interrogation-room")
-        activeInterrogant = document.getElementsByClassName("interrogant")[interrogantNumber-1]
+        activeInterrogant = document.querySelector(".interrogant")
+        activeInterrogant.id = `room2suspect${interrogantNumber}img`
         activeInterrogant.style.display = "flex"
         playAnimation(2, interrogantNumber, "idle")
+        document.getElementById("answer-container").classList.add("hidden")
 
         // SÆT "KARAKTEREN" TIL AT VÆRE ET ARRAY AF OBJEKTETS VÆRDIER, 
         // OG TAG INDEKSET AF interrogantNumber (1-3) og - 1 
         const character = Object.values(gameCharacters)[interrogantNumber - 1]
-        const questions = character.spørgsmål[interrogantNumber === currentSuspect ? "skyldig" : "uskyldig"]
+        const basicQuestions = character.spørgsmål.basis
+        const scenarioQuestions = character.spørgsmål[currentScenario.id]
+        //SAML BEGGE LISTER AF SPØRGSMÅLS INDHOLD I ET NYT ARRAY MED ...
+        const questions = [...basicQuestions, ...scenarioQuestions].filter(sp => 
+            (sp.kræver_genstand === null || itemsFound.includes(sp.kræver_genstand)) && !askedQuestions.includes(interrogantNumber + sp.tekst)
+        )
         //TØM KASSEN FOR GAMLE KNAPPER
         document.getElementById("dialogOptContainer").innerHTML = ""
         //SKAB KNAPPER FOR HVERT SPØRGSMÅL
         for (let i = 0; i < questions.length; i++) {
-        const questionBtn = document.createElement("button")
-        questionBtn.classList.add("dialogOpt","greyStandardBox")
-        questionBtn.textContent = questions[i].tekst
-        questionBtn.onclick = () => {
-            //GØR AT TEKSTEN TILFØJES TIL CONTAINEREN
-            document.getElementById("answer-container").classList.remove("hidden")
-            document.getElementById("answer-name").textContent = character.navn + ":"
-            document.getElementById("answer-text").textContent = questions[i].svar
-            playAnimation(2, interrogantNumber, "angry")
-            setTimeout(() => playAnimation(2, interrogantNumber, "idle"), 3500)
+            const questionBtn = document.createElement("button")
+            questionBtn.classList.add("dialogOpt","greyStandardBox")
+            questionBtn.textContent = questions[i].tekst
+            questionBtn.onclick = () => {
+                document.getElementById("answer-name").textContent = character.navn + ":"
+                document.getElementById("answer-text").textContent = ""
+                document.getElementById("answer-container").style.boxShadow = `0px 0px 5px ${character.farve}`
+                document.getElementById("answer-name").style.color = character.farve
+                document.getElementById("answer-container").classList.remove("hidden")
+                typeAnswer(questions[i].svar, interrogantNumber)
+                playAnimation(2, interrogantNumber, "angry")
 
+                askedQuestions.push(interrogantNumber + questions[i].tekst)
+                questionBtn.remove()
+            }
+            document.getElementById("dialogOptContainer").appendChild(questionBtn)
         }
-        document.getElementById("dialogOptContainer").appendChild(questionBtn)
-        }
-
-        
-
+        console.log(questions)
     }
+
+    function typeAnswer(text, interrogantNumber) {
+        clearInterval(typingInterval)
+        var c = 0
+        typingInterval = setInterval(() => {
+            document.getElementById("answer-text").textContent = text.slice(0, c)
+            c++
+            if (c > text.length) {
+                playAnimation(2, interrogantNumber, "idle")
+                clearInterval(typingInterval)
+            }
+        }, 50)  
+    }
+
+// ============================================
+// DE MISTÆNKTES RUM
+// ============================================
+
+function enterRoom(suspectNumber) {
+    suspectsRoom = Object.keys(currentScenario.genstande)[suspectNumber]
+    document.getElementById("suspect-room").style.backgroundImage = `url('./assets/suspect${suspectNumber}roomBg.png')`
+    shiftPage("#suspect-room")
+}
+
+
 
     function backBtn() {
         shiftPage("#main-room")
-        document.getElementById('interrogation-room').addEventListener('transitionend', () => {
+        document.getElementById('interrogation-room').addEventListener('transitionend', (e) => {
+            if (e.propertyName !== "left") return
             activeInterrogant.style.display = 'none'
             document.getElementById("answer-container").classList.add("hidden")
         }, {once: true}
@@ -350,7 +355,8 @@ function resetGame() {
     shiftPage('#start')
     // Sæt en eventlistener på slutningen af end-screen transitionen, og vis først save-score der.
     document.getElementById("end-screen").addEventListener("transitionend", (e) => {
-        // FJERN HVIS IKKE ET PROBLEM: if (e.propertyName !== "left") return
+        // FJERN HVIS IKKE ET PROBLEM: 
+        if (e.propertyName !== "left") return
         document.getElementById("save-score").style.display = "flex"
     }, {once: true})
 

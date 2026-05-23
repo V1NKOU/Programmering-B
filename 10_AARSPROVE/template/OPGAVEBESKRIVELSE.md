@@ -50,33 +50,23 @@ Spillet skal bygges med de teknikker og værktøjer, I har arbejdet med i løbet
 - I må gerne bruge lyd og lydeffekter ([`loadSound`](https://p5js.org/reference/p5/loadSound/) / [`createAudio`](https://p5js.org/reference/p5/createAudio/))
 - I må gerne bruge webcam, speech synthesis eller andre browser-API'er, hvis det giver mening for jeres spil
 
-### Krav til aflevering
+## Krav til aflevering
 
-Afleveringen består af to dele: en **fælles projektbeskrivelse** og en **individuel synopsis**.
+Du skal aflevere din samlede kode samt en kort, individuel synopsis (ca. 1-2 normalsider ekskl. kode). Synopsen er din forberedelse til den mundtlige prøve og skal vise din tekniske forståelse af dit eget program.
 
-#### Fælles projektbeskrivelse (gruppen)
-Gruppen afleverer en kort **projektbeskrivelse** (ca. 1 side) der indeholder:
-- Hvad spillet handler om og hvad målet er
-- En oversigt over arbejdsfordelingen — hvem har ansvaret for hvad
-- En beskrivelse af den enkelte elevs fokusområde i projektet
+Din synopsis skal indeholde:
 
-Projektbeskrivelsen skal godkendes af læreren inden I går i gang med at kode.
+Forblad: Titel på programmet, dit navn og dit hold.
 
-#### Individuel synopsis
-Hver elev skriver sin egen **synopsis** (3–5 normalsider, ekskl. kode og bilag). Synopsen er jeres forberedelse til den mundtlige prøve og skal give et overblik over projektet og jeres arbejde. Den skal indeholde:
+Kort beskrivelse: Hvad går dit program/spil ud på? (3-5 linjer).
 
-1. **Forblad** — titel, navn, dato, hold
-2. **Kort abstract** — et kort resumé af hvad projektet går ud på (3–5 linjer)
-3. **Problemformulering** — hvad er det I har sat jer for at løse/lave?
-4. **Funktionsbeskrivelse** — beskriv spillet fra brugerens perspektiv: skærmlayout, hvad man kan klikke på, spillets flow
-5. **Dokumentation af programmet:**
-   - Overordnet beskrivelse af programmets opbygning
-   - Flowchart eller diagram over spillets struktur (rum/sider og sammenhængen mellem dem)
-   - Gennemgang af udvalgte kodestumper med forklaring — beskriv mindst to af jeres gåder/interaktioner teknisk
-   - Brug gerne pseudokode til at forklare centrale algoritmer (fx timer-logik, scoring, gåde-logik)
-6. **Test** — beskriv hvordan I har testet spillet (funktionel test og evt. brugertest)
-7. **Konklusion** — hvad er I nået i mål med? Hvad ville I gøre anderledes/videreudvikle?
-8. **Bilag** — den samlede kode (HTML, CSS, JS)
+Struktur: Et flowchart eller diagram, der viser programmets overordnede opbygning og flow.
+
+Kodeforståelse: Udklip af 1-2 centrale kodestumper. Du skal teknisk forklare logikken bag udklippene (fx hvordan en bestemt interaktion, betingelse eller algoritme fungerer).
+
+Status: Hvad virker i dit program, og hvad ville du videreudvikle, hvis du havde mere tid?
+
+Bilag: Din fulde, kørbare kode (HTML, CSS og JavaScript/P5.js).
 
 ---
 
