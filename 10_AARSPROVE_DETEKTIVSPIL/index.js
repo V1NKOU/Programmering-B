@@ -163,6 +163,7 @@ function loadItems(rumNavn, containerId) {
         img.style.top = item.top
         img.style.left = item.left
         img.style.width = item.størrelse
+        img.style.cursor = "pointer"
         img.style.zIndex = "1"
         img.onclick = () => {
             if (!itemsFound.includes(item.id)) itemsFound.push(item.id)
@@ -329,7 +330,7 @@ function resetGame() {
     //TRANSITIONEND VENTER PÅ AT END-SCREEN ER UDE AF SYNE FØR SAVE-SCORE VISES IGEN
     document.getElementById("end-screen").addEventListener("transitionend", (e) => {
         if (e.propertyName !== "left") return
-        document.getElementById("save-score").style.display = "flex"
+        document.getElementById("save-score").style.display = "grid"
     }, {once: true})
 
 }

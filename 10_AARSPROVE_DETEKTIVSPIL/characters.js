@@ -2,7 +2,6 @@
 const gameCharacters = {
     gilbert: {
         navn: "Gilbert",
-        hilsen: "Hvad vil du?",
         farve: "rgba(189, 179, 68, 0.75)",
         spørgsmål: {
             basis: [
@@ -127,7 +126,6 @@ const gameCharacters = {
     },
     asta: {
         navn: "Asta",
-        hilsen: "Yooooo",
         farve: "rgba(34, 137, 34, 0.749)",
         spørgsmål: {
             basis: [
@@ -252,7 +250,6 @@ const gameCharacters = {
     },
     ludvig: {
         navn: "Ludvig",
-        hilsen: "Har du hørt om partyboks?",
         farve: "rgba(137, 34, 34, 0.75)",
         spørgsmål: {
             basis: [

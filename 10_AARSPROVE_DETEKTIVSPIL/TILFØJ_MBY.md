@@ -5,7 +5,7 @@
 
 ## FORBEDRES:
 - Transitions mellem rum (mørke?)
-- AL grafik
+- Flere animationer? (måske ikke muligt)
 
 ## BILLEDER/LYD DER SKAL TAGES:
 - IDLE ANIMATIONS VED HVER TING!
@@ -26,3 +26,12 @@ SØRG FOR AT GØRES BILLEDERNE AF DEM SAMME STØRRELSE
 
 ## ASTA ER MORDER
 
+
+# HILSENER:
+
+## gibot:
+hilsen: "Hvad vil du?",
+## ester:
+hilsen: "Yooooo",
+## luder:
+hilsen: "Har du hørt om partyboks?",
