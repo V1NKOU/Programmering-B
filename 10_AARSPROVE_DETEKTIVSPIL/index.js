@@ -198,11 +198,13 @@ function confirmGuess(suspectNumber) {
         stopTimer()
         if(suspectNumber == currentScenario.morder) {
             document.getElementById("save-score").style.display = "grid"
+            document.getElementById("final-time").style.display = "flex"
             document.getElementById("final-time").textContent = `Endelig tid: ${seconds} sekunder`
             document.getElementById("end-title").textContent = "Du fandt morderen!"
             document.getElementById("end-title").style.textShadow = "0px 0px 10px green"
         } else {
             document.getElementById("end-title").textContent = "Du gættede forkert."
+            document.getElementById("final-time").style.display = "none"
             document.getElementById("end-title").style.textShadow = "0px 0px 10px red"
             document.getElementById("save-score").style.display = "none"
         }
@@ -233,7 +235,7 @@ function interrogate(suspectNumber) {
     document.getElementById("questionContainer").innerHTML = ""
     for (let i = 0; i < questions.length; i++) {
         const questionBtn = document.createElement("button")
-        questionBtn.classList.add("dialogOpt","greyStandardBox")
+        questionBtn.classList.add("question","greyStandardBox")
         questionBtn.textContent = questions[i].tekst
         questionBtn.onclick = () => {
             document.getElementById("answer-name").textContent = character.navn + ":"

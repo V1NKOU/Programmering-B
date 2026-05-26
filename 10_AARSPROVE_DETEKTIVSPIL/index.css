@@ -301,7 +301,7 @@ button:focus {
     display: none;
 }
 
-.dialogOpt {
+.question {
     min-height: 10vh;
     height: auto;
     width: 45vh;

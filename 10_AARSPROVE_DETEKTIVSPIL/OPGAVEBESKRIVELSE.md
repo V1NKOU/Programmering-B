@@ -56,11 +56,11 @@ Du skal aflevere din samlede kode samt en kort, individuel synopsis (ca. 1-2 nor
 
 Din synopsis skal indeholde:
 
-## DONE ## Forblad: Titel på programmet, dit navn og dit hold.
+Forblad: Titel på programmet, dit navn og dit hold.
 
-## DONE ##  Kort beskrivelse: Hvad går dit program/spil ud på? (3-5 linjer).
+Kort beskrivelse: Hvad går dit program/spil ud på? (3-5 linjer).
 
-## DONE ##  Struktur: Et flowchart eller diagram, der viser programmets overordnede opbygning og flow.
+Struktur: Et flowchart eller diagram, der viser programmets overordnede opbygning og flow.
 
 Kodeforståelse: Udklip af 1-2 centrale kodestumper. Du skal teknisk forklare logikken bag udklippene (fx hvordan en bestemt interaktion, betingelse eller algoritme fungerer).
 
