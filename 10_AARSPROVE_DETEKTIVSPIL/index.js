@@ -17,6 +17,14 @@ var votedSuspect
 // Firestore reference
 var scoresRef = db.collection('highscores')
 
+//LYDE
+
+
+
+
+
+
+
 
 // ============================================
 // ANIMATIONER
@@ -94,10 +102,22 @@ function setup() {
 // SHIFTPAGE — skifter mellem rum/sider
 // ============================================
 function shiftPage(newPage) {
-    select(currentPage).removeClass('show')
-    select(newPage).addClass('show')
-    currentPage = newPage
+    const overlay = document.getElementById("blackout-overlay")
+    const swooshSound = new Audio("./assets/sounds/swoosh.mp3")
+    swooshSound.volume = 0.05
+    swooshSound.play()
+
+    overlay.classList.add("darken-page")
+    setTimeout(() => {
+        select(currentPage).removeClass('show')
+        select(newPage).addClass('show')
+        currentPage = newPage
+    }, 250)
+    setTimeout(() => {
+        overlay.classList.remove("darken-page")
+    }, 500)
     document.getElementById("item-container").classList.add("hidden")
+
     for (const key in animationIntervals) {
         clearInterval(animationIntervals[key])
     }
@@ -105,6 +125,13 @@ function shiftPage(newPage) {
         playAnimation(1, 1, "idle")
         playAnimation(1, 2, "idle")
         playAnimation(1, 3, "idle")
+        /*LAV HER!!
+        if (!)
+        const bgJazz = new Audio("./assets/sounds/backgroundJazz.mp3")
+        bgJazz.loop = true
+        bgJazz.volume = 0.1
+        bgJazz.play()
+        */
     }
     if (newPage == "#crime-scene") {
         document.getElementById("crime-scene-container").innerHTML = ""
@@ -272,7 +299,7 @@ function typeAnswer(text, suspectNumber) {
 
 function enterRoom(suspectNumber) {
     suspectsRoom = Object.keys(currentScenario.genstande)[suspectNumber]
-    document.getElementById("suspect-room").style.backgroundImage = `url('./assets/suspect${suspectNumber}roomBg.png')`
+    document.getElementById("suspect-room").style.backgroundImage = `url('./assets/backgrounds/suspect${suspectNumber}roomBg.png')`
     shiftPage("#suspect-room")
 }
 

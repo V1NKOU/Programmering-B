@@ -12,7 +12,6 @@ body {
     position: fixed;
     top: 0;
     left: -100vw;
-    transition: left 0.5s ease-in-out;
     background-size: cover;
     background-position: center;
 }
@@ -32,13 +31,36 @@ body {
     /*LAVER EN OVAL I MIDTEN, DER ER GENNEMSIGTIG, SLØRET OG GÅR HELE VEJEN TIL KANTEN*/
     background: radial-gradient(ellipse at center, 
         transparent 10%, 
-        rgba(0, 0, 0, 0.75) 100%
+        rgb(0, 0, 0) 100%
     );
     pointer-events: none;
     position: absolute;
     inset: 0;
-    z-index: 2;
+    z-index: 2; 
     animation: atmosphericPulse 4s ease-in-out infinite;
+}
+
+#blackout-overlay {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0;
+    background: black;
+}
+
+#blackout-overlay.darken-page {
+    animation: blackout 0.5s ease-in-out;
+}
+
+@keyframes blackout {
+    0%   { opacity: 0; }
+/*  15%  { opacity: 0.7; }
+    25%  { opacity: 0.4; } */
+    50%  { opacity: 1; }
+/*  75%  { opacity: 0.4; }
+    80%  { opacity: 0.7; }*/
+    100% { opacity: 0; }
 }
 
 @keyframes atmosphericPulse {
@@ -258,11 +280,11 @@ button:focus {
 }
 
 /* ---- Rum-baggrunde ---- */
-#start              { background-image: url('./assets/title-screen.png'); }
-#main-room          { background-image: url('./assets/main-roomBg.png'); }
-#interrogation-room { background-image: url('./assets/interrogation-roomBg.png'); }
-#crime-scene        { background-image: url('./assets/crime-scene.png'); }
-#end-screen         { background-image: url('./assets/end-screen.png'); }
+#start              { background-image: url('./assets/backgrounds/title-screen.png'); }
+#main-room          { background-image: url('./assets/backgrounds/main-roomBg.png'); }
+#interrogation-room { background-image: url('./assets/backgrounds/interrogation-roomBg.png'); }
+#crime-scene        { background-image: url('./assets/backgrounds/crime-scene.png'); }
+#end-screen         { background-image: url('./assets/backgrounds/end-screen.png'); }
 
 
 .interrogant {

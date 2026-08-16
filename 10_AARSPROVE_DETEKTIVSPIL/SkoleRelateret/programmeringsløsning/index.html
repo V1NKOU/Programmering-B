@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer til en klik-test</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.11/lib/p5.js"></script>
+
+</head>
+
+<body>
+    <main>
+        <div id="page">
+            <div id="overlay">
+                <p id="timer" class="overlayItem">Tid tilbage: 10 sekunder</p>
+                <p id="clicks" class="overlayItem">Score: 0 klik</p>
+            </div>
+            <div id="pageContentContainer">
+                <h1 id="title">Klik-Test</h1>
+                <p id="description">Tryk så mange gange du kan på knappen indenfor 10 sekunder. Tiden starter når du trykker på knappen.</p>
+                <button id="startBtn" class="button">Start</button>
+                <button id="clickBtn" class="button"style="display: none;">Klik på mig!</button>
+                <p id="finalScore"></p>
+            </div>
+
+        </div>
+
+    </main>
+    <script src="./index.js"></script>
+</body>
+
+</html>
