@@ -5,7 +5,6 @@ var isDragging = false
 var mouseX
 var mouseY
 var currentCol = "rgb(0,0,0)"
-var currentRad = "10"
 
 function setup(){
     noCanvas()
@@ -39,6 +38,16 @@ function setup(){
     canvas.addEventListener("mouseup", () => isDragging = false)
     canvas.addEventListener("mouseleave", () => isDragging = false)
 
+    document.querySelectorAll(".colorOption").forEach(e => {
+    e.addEventListener("click", () => {
+        document.querySelector(".colorOption.selected").classList.remove("selected")
+        e.classList.add("selected")
+        currentCol = e.dataset.color
+        console.log(currentCol)
+    })
+    e.style.backgroundColor = e.dataset.color
+})
+
 }
 
 function paint() {
@@ -46,6 +55,6 @@ function paint() {
         x:mouseX,
         y:mouseY,
         color:currentCol,
-        radius:currentRad
+        radius: Number(document.getElementById("radiusScale").value)
     }))
 }

@@ -23,6 +23,20 @@
         <div class="page show" id="page1">
             <h1 id="title">MQTT Drawing Pad</h1>
             <canvas id="draw-canvas" height="500px" width="500px" style="border: 4px solid black;"></canvas>
+            <div id="settingsContainer">
+                <div id="ballColors">
+                    <h2>Colors</h2>
+                    <div id="blackColor" class="colorOption selected" data-color="#000000"></div>
+                    <div id="whiteColor" class="colorOption" data-color="#FFFFFF"></div>
+                    <div id="redColor" class="colorOption" data-color="#c73d28"></div>
+                    <div id="blueColor" class="colorOption" data-color="#2544db"></div>
+                    <div id="greenColor" class="colorOption" data-color="#30b840"></div>
+                </div>
+                <div id="radiusScaleContainer">
+                    <h2>Radius</h2>
+                    <input type="range" min="1" max="40" value="10" name="" id="radiusScale" class="slider">
+                </div>
+            </div>
         </div>
     </main>
     <script src="./index.js"></script>
