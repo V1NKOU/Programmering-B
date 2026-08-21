@@ -8,8 +8,8 @@ const ja = new Audio('./assets/ja.mp3')
 const nej = new Audio('./assets/nej.mp3')
 ding.volume = 1
 endDing.volume = 1
-ja.volume = 1
-nej.volume = 1
+ja.volume = 2
+nej.volume = 2
 
 
 function sleep(ms) {
