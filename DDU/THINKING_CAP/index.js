@@ -6,8 +6,8 @@ const ding = new Audio('./assets/ding.wav')
 const endDing = new Audio('./assets/end-ding.mp3')
 const ja = new Audio('./assets/ja.mp3')
 const nej = new Audio('./assets/nej.mp3')
-ding.volume = 1
-endDing.volume = 1
+ding.volume = 0.8
+endDing.volume = 0.7
 ja.volume = 2
 nej.volume = 2
 
