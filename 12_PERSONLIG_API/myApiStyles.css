@@ -1,1 +1,52 @@
 /* CSS der hører til dit API — fx .show og #toast */
+
+#toast{
+    width:20rem;
+    height:8rem;
+    display:grid;
+    place-items:center;
+    font-size:1.1rem;
+    color:darkslategray;
+    position:fixed;
+    top:-12rem;
+    right:2rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    transition: top 0.5s ease-in-out;
+}
+
+
+#toast.toastShow{
+    top:2rem;
+}
+
+#toast.toastShow.notify{
+    background-color: #f1f1f1;
+}
+#toast.toastShow.warning{
+    background-color:rgb(218, 51, 76);
+}
+
+/* in index.css, alongside your banner rules */
+.banner {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 160px;
+    z-index: 5;
+}
+
+.banner img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.left-banner { left: 0; }
+.right-banner { right: 0; }
+
+body.mommified .page {
+    width: calc(100vw - 320px);
+    left: 160px;
+}
