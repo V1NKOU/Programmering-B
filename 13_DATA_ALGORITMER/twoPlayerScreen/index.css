@@ -1,0 +1,54 @@
+body {
+    overflow: hidden;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    top: 100vh;
+    padding: 7rem;
+    box-sizing: border-box;
+
+}
+
+.page.show {
+    top: 0;
+}
+
+#players {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+#playerA img, #playerB img {
+    width: 100px;
+}
+
+#characters {
+    display: grid;
+    overflow: scroll;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: 140px;
+    gap: 1rem;
+}
+/*
+.card {
+    width: fit-content;
+    justify-content: baseline;
+    margin-bottom: 0;
+    margin-top: auto;
+    padding-top: 1rem;
+}
+.card * {
+    display: flex;
+    font-size: 1.5rem;
+    font-weight: 500;
+    width: 12vw;
+    font-family: 'Lexend';
+}
+
+

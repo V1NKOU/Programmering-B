@@ -21,14 +21,16 @@ function doubleEverything(tag="body") {
 }
 
 function shiftPage(newPage){
-    pages_with_show = select(".page")
+    pages_with_show = selectAll(".page")
 
-    for (let i = 0; i < elements.length; i++) {
+    for (let i = 0; i < pages_with_show.length; i++) {
         pages_with_show[i].removeClass('show')
     }
 
     select(newPage).addClass('show')
 }
+
+
 
 function meatSpin(seconds=10) {
     BodyinnerHTML = select("body").elt.innerHTML
@@ -42,13 +44,40 @@ function meatSpin(seconds=10) {
 function mommify() {
     const leftBanner = document.createElement('div');
     leftBanner.classList.add('banner', 'left-banner');
-    leftBanner.innerHTML = `<img src="./assets/pic1.png" alt="spicyPic">`;
+    leftBanner.innerHTML = `<img src="/api_lib/assets/img1.png" alt="spicyPic">`;
 
     const rightBanner = document.createElement('div');
     rightBanner.classList.add('banner', 'right-banner');
-    rightBanner.innerHTML = `<img src="./assets/pic2.png" alt="anotherSpicyPic">`;
+    rightBanner.innerHTML = `<img src="/api_lib/assets/img2.png" alt="anotherSpicyPic">`;
 
     document.body.append(leftBanner, rightBanner);
     document.body.classList.add('mommified');
+}
+
+async function getJSON( endpoint ) {
+    let res
+    
+    try{
+        res = await fetch( endpoint )
+    } catch(err) {
+        console.log(err)
+    }
+    //hvis response er ok, henter vi js data
+    let json = await res.json()
+
+    console.log(`Hentede shi fra fetchJSON`)
+    console.log(json)
+    return json
+
+}
+
+function createCard(title="", species="", image="") {
+    return `
+    <div class="card">
+    <img src="${image}">
+        <h2>${title}</h2>
+        <p>${species}</p>
+    </div>
+    `
 }
 

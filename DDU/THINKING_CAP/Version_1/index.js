@@ -8,13 +8,9 @@ const ja = new Audio('./assets/ja.mp3')
 const nej = new Audio('./assets/nej.mp3')
 ding.volume = 0.8
 endDing.volume = 0.7
-ja.volume = 2
-nej.volume = 2
+ja.volume = 1
+nej.volume = 1
 
-
-function sleep(ms) {
-    return new Promise(r => setTimeout(r, ms))
-}
 
 function setup() {
     noCanvas()
@@ -34,7 +30,7 @@ function setup() {
     })
     
 
-    //client.publish('cap', 'btnPress')
+    client.publish('cap', 'btnPress')
     
     client.on('message', (_, msg) => {
         console.log('Besked Modtaget')
