@@ -15,3 +15,7 @@ body {
 .page.show {
     top: 0;
 }
+
+#choose {
+    background-color: rgb(251, 189, 189);
+}

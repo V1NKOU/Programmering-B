@@ -6,7 +6,7 @@
     <title>Karaktervalg — controller</title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css">
-    <link rel="stylesheet" href="../myApiStyles.css">
+    <link rel="stylesheet" href="/api_lib/myApiStyles.css">
     <link rel="stylesheet" href="./index.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.15.2/mqtt.min.js"></script>
@@ -18,9 +18,17 @@
     <div class="page show" id="page1">
         <!-- Byg mobil-controlleren her -->
          <h1>Vælg Spiller</h1>
+         <button id="playerA">Player A</button>
+         <button id="playerB">Player B</button>
+    </div>
+    <div class="page" id="choose">
+        <h1 id="name">Hvem er jeg?</h1>
+        <button id="forward">Frem</button>
+        <button id="back">Tilbage</button>
+        <button id="select">Vælg</button>
     </div>
 
-    <script src="../myApi.js"></script>
+    <script src="/api_lib/myApi.js"></script>
     <script src="./index.js"></script>
 </body>
 </html>

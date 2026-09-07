@@ -27,6 +27,7 @@ let waitTime, rowsScrolled, lastRow, rowsToPass, targetParity, step
 
 function setup() {
     noCanvas()
+
     client = mqtt.connect('wss://mqtt.nextservices.dk')
     client.subscribe('cap')
 
@@ -46,7 +47,7 @@ function setup() {
     })
 }
 
-const handleFrames = [
+const frames = [
     './assets/handtag1.png',
     './assets/handtag2.png',
     './assets/handtag3.png',
@@ -56,16 +57,16 @@ const handleFrames = [
     './assets/handtag1.png',
     './assets/handtag4.png',
 ]
-handleFrames.forEach(src => { new Image().src = src }) // preload, avoids flicker on first play
+frames.forEach(src => { new Image().src = src })
 
-const handleImg = document.getElementById('handle-figure')
+const gut = document.getElementById('gut')
 
-function playHandleAnimation(frameDelay = 150) {
+function playAnimation(frameDelay = 150) {
     let i = 0
     function nextFrame() {
-        handleImg.src = handleFrames[i]
+        gut.src = frames[i]
         i++
-        if (i < handleFrames.length) setTimeout(nextFrame, frameDelay)
+        if (i < frames.length) setTimeout(nextFrame, frameDelay)
     }
     nextFrame()
 }
@@ -84,7 +85,7 @@ function drawAt(rowPos) {
 }
 
 function startSpin() {
-    playHandleAnimation()
+    playAnimation()
     waitTime = 20
     rowsScrolled = 0
     lastRow = 0

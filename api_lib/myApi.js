@@ -27,7 +27,7 @@ function shiftPage(newPage){
         pages_with_show[i].removeClass('show')
     }
 
-    select(newPage).addClass('show')
+    document.getElementById(newPage).classList.add('show')
 }
 
 
