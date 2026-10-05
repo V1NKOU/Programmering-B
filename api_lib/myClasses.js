@@ -234,8 +234,12 @@ class enemy extends Ball {
     //push() saves the current drawing settings so they can be restored later by pop()
     push()
     translate(this.position.x, this.position.y)
-    rotate(this.angle)   // convert degrees -> radians here
-    
+
+    let difX = p.position.x - this.position.x
+    let difY = p.position.y - this.position.y
+
+    if (difX < 0) scale(-1, 1)
+     rotate(Math.atan2(difY, Math.abs(difX)))   // convert degrees -> radians here
     if(this.img instanceof p5.Image){
       imageMode(CENTER)
       drawingContext.shadowBlur = 30

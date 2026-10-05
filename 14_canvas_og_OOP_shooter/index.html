@@ -21,7 +21,13 @@
 <body>
     <div id="toast"></div>
     <main>
-        <div class="page" id="page1">  
+        <div class="page show" id="page1">
+            <h1 id="start-title">Super-Simon saves the Galaxy</h1>
+            <p id="start-hint">WASD to move. Hold the mouse to charge a shot, release to fire.</p>
+            <button id="startBtn" disabled>Loading...</button>
+        </div>
+        <div class="page" id="page2">  
+            <div id="canvas-container"></div>
             <div id="top-left-ui">
                 <div id="time">
                     <h1 class="ui-text">Time: </h1>
@@ -32,7 +38,40 @@
                     <h1 class="num" id="scoreNum">0</h1>
                 </div>
             </div>
-    </div>
+        </div>
+        <div class="page" id="page3">
+            <h1 id="end-title">You Died.</h1>
+            <div id="stat-container">
+                <div class="stat-top">
+                    <div class="stat-left">
+                        <div class="stat-label">Time Survived</div>
+                        <div class="stat-num" id="stat-time-num">...</div>
+                    </div>
+                    <div class="stat-right">
+                        <div class="stat-label">Total Kills</div>
+                        <div class="stat-num" id="stat-kills-num">...</div>
+                    </div>
+                </div>
+                <div class="stat-container-bot">
+                    <div class="stat-label">Final Score</div>
+                    <div class="stat-num" id="stat-score-num">...</div>
+                </div>
+            </div>
+
+            <div id="save-container">
+                <div class="save-top">Save score</div>
+                <div class="save-bot">
+                    <input type="text" id="nameInput" placeholder="Write your name here" maxlength="20">
+                    <button id="saveBtn" onclick="saveScore()">Save</button>
+                </div>
+            </div>
+
+            <button id="restartBtn">Play again</button>
+            <div id="highscore-container">
+                <div class="save-top">Highscores</div>
+                <ul id="highscore-list"></ul>
+            </div>
+        </div>
 </main>
     <script src="../api_lib/myApi.js"></script>
     <script src="../api_lib/myClasses.js"></script>

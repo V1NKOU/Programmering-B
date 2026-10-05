@@ -1,7 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap');
 
-
+:root {
+    --glass: rgba(255, 255, 255, 0.4);
+}
+/* ---------- Base ---------- */
 body,
 * {
     font-family: "open sans";
@@ -16,20 +19,59 @@ canvas {
     user-select: none;
 }
 
+/* ---------- Pages ---------- */
 .page {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
     position: fixed;
     left: 0;
+    display: none;
 }
 
-#info {
-    position: fixed;
-    
+.page.show {
+    display: block;
 }
+
+#page1,
+#page3 {
+    background: #0b0b1a url("./assets/space3.png") center / 100% 100% no-repeat;
+    color: white;
+}
+
+/* ---------- Page 1: start ---------- */
+#page1.show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+#start-title {
+    font-size: 4rem;
+    letter-spacing: 0.2rem;
+    text-align: center;
+    text-shadow: 0 0 10px white;
+}
+
+#start-hint {
+    font-size: 1.2rem;
+    text-shadow: 0 0 4px black;
+}
+
+/* ---------- Page 2: game ---------- */
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
 #top-left-ui {
-    background-color: rgba(255, 255, 255, 0.495);
+    position: relative;
+    z-index: 1;
+    background-color: var(--glass);
     width: 18vw;
     height: 15vh;
     margin: 2rem;
@@ -56,6 +98,203 @@ canvas {
 .num {
     font-size: 2.3rem;
     font-weight: 700;
-    text-shadow: 0 0 1px rgb(61, 208, 16);
-    text-align:end;
+    text-shadow: 0 0 3px rgb(255, 255, 255);
+    text-align: end;
+}
+
+/* ---------- Page 3: game over ---------- */
+#page3.show {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 2rem;
+    padding-top: 3rem;
+    overflow-y: auto;
+}
+
+#end-title {
+    font-size: 4rem;
+    letter-spacing: 0.2rem;
+    text-align: center;
+    color: white;
+    text-shadow: 0 0 10px white;
+}
+
+/* Shared transparency style*/
+#stat-container,
+#save-container,
+#highscore-container {
+    background-color: rgba(255, 255, 255, 0.495);
+    border: 2px solid white;
+    border-radius: 0;
+    box-shadow: 0 0 5px white;
+    color: #222;
+    text-align: center;
+    transition: box-shadow 0.2s ease;
+}
+
+#stat-container:hover,
+#save-container:hover,
+#highscore-container:hover {
+    box-shadow: 0 0 14px white;
+}
+
+/* Layout of each box */
+#stat-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    min-width: 30rem;
+    max-width: 90vw;
+    padding: 2.5rem 3rem;
+}
+
+#save-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    min-width: 30rem;
+    max-width: 90vw;
+    padding: 1.5rem 2rem;
+}
+
+#highscore-container {
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
+    width: 28rem; 
+    padding: 1.5rem 2rem;
+}
+
+/* Stats */
+.stat-top {
+    display: flex;
+    justify-content: space-around;
+    gap: 3rem;
+}
+
+.stat-label,
+.save-top {
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: 0.1rem;
+    color: #222;
+    text-shadow: 0 0 1px black;
+}
+
+.stat-num {
+    font-size: 2.5rem;
+    font-weight: 700;
+    text-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
+.stat-container-bot .stat-num {
+    font-size: 4rem;   /* final score stands out */
+}
+
+/* Save score */
+.save-bot {
+    display: flex;
+    gap: 1rem;
+}
+
+.save-bot input[type="text"] {
+    flex: 1;
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid white;
+    color: #111;
+}
+
+.save-bot input[type="text"]::placeholder {
+    color: #555;
+}
+
+.save-bot input[type="text"]:focus {
+    border-color: #2e9e4f;
+    box-shadow: 0 0 6px #2e9e4f;
+    outline: none;
+}
+
+#saveBtn {
+    margin: 0;
+    padding: 0 2rem;
+    cursor: pointer;
+    border-radius: 0;
+    background-color: rgba(255, 255, 255, 0.4);
+    border: 2px solid white;
+    color: #111;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+#saveBtn:hover {
+    border-color: #2e9e4f;
+    color: #2e9e4f;
+}
+
+#saveBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #bbb;
+    color: #888;
+}
+
+/* Highscore list */
+#highscore-list {
+    list-style: none;
+    margin: 1rem 0 0;
+}
+
+#highscore-list li {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+}
+
+.hs-rank  { width: 2rem; color: #333; text-align: left; }
+.hs-name  { flex: 1; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hs-score { font-weight: 700; }
+.hs-empty { justify-content: center; color: #333; }
+
+/* ---------- Green start / restart buttons ---------- */
+#startBtn,
+#restartBtn {
+    font-size: 1.3rem;
+    padding: 0 3rem;
+    height: 3.5rem;
+    margin: 0;
+    cursor: pointer;
+    border-radius: 0;
+    background-color: rgba(46, 158, 79, 0.35);
+    border: 2px solid #5cd681;
+    color: white;
+    text-shadow: 0 0 4px #2e9e4f;
+    box-shadow: 0 0 5px #5cd681;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, background-color 0.15s ease;
+}
+
+#startBtn:hover,
+#restartBtn:hover {
+    background-color: rgba(54, 184, 92, 0.5);
+    border-color: #8dffb0;
+    color: white;                        /* Skeleton changes the text colour on hover */
+    transform: translateY(-4px);
+    box-shadow: 0 0 16px #5cd681;
+}
+
+#startBtn:active,
+#restartBtn:active {
+    transform: translateY(0);
+    box-shadow: 0 0 5px #5cd681;
+}
+
+#startBtn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+    transform: none;
+    box-shadow: none;
 }

@@ -1,15 +1,10 @@
-var gravity 
-var friction  
-var b
-var f
+const glass = 100
+let gravity 
+let friction  
+let b
+let f
 let p
 let mousePos = {}
-let faces = {
-  simon:  [],
-  asta:   [],
-  ludvig: [],
-  jonk:   []
-}
 let pewSound
 let bulletImg
 let projectiles = []
@@ -26,6 +21,16 @@ let score = 0
 let seconds = 0
 let kills = 0
 let timerInterval
+let gameRunning = false
+let faces = {
+  simon:  [],
+  asta:   [],
+  ludvig: [],
+  jonk:   []
+}
+//firestore ref
+var scoresRef = db.collection('simon-shooter-scores')
+
 
 async function load() {
   //LOAD IMAGES
@@ -56,7 +61,8 @@ async function load() {
 }
 async function setup() {
 
-  createCanvas(windowWidth, windowHeight)
+  let cnv = createCanvas(windowWidth, windowHeight)
+  cnv.parent("canvas-container")
   gravity = createVector(0, 0.5)
   friction = 0.985
   await load()
@@ -72,12 +78,14 @@ async function setup() {
   })
 
   document.addEventListener("mousedown", () => {
-    currentHoldTime = 0
-    pressStartTime = millis()
-    isHeld = true
+  if (!gameRunning) return
+  currentHoldTime = 0
+  pressStartTime = millis()
+  isHeld = true
   })
+
   document.addEventListener("mouseup", () => {
-    if (pressStartTime !== null) {
+    if (!gameRunning || !isHeld) return
       isHeld = false
       console.log("Held for", millis()-pressStartTime,"ms")
       let rotation = Math.atan2(mousePos.y - p.position.y,mousePos.x - p.position.x)
@@ -86,7 +94,7 @@ async function setup() {
       pewSound.amp(constrain(power/10, 0.5, 1.2))
       pewSound.play()
       projectiles.push(new bullet(p.position.x, p.position.y, bulletImg, 42, power, rotation))
-    }
+    
 
   })
 
@@ -104,7 +112,35 @@ async function setup() {
     keys = {}
   })
 
+  document.getElementById("startBtn").addEventListener("click", startGame)
+  document.getElementById("restartBtn").addEventListener("click", startGame)
+
+  const startBtn = document.getElementById("startBtn")
+  startBtn.disabled = false
+  startBtn.textContent = "Start"
+
+  loadHighScores()
+}
+
+function startGame() {
+  if (!p) return
+  enemies = []
+  projectiles = []
+  score = 0
+  kills = 0
+  spawnInterval = 2000
+  lastSpawn = millis()
+  isHeld = false
+  currentHoldTime = 0
+  keys = {}
+  p.hp = 100
+  p.vel.set(0, 0)
+  p.position.set(windowWidth/2, windowHeight/2)
+  document.getElementById("scoreNum").textContent = 0
+  document.getElementById("timeNum").textContent = 0
   startTimer()
+  shiftPage("#page2")
+  gameRunning = true
 }
 
 function startTimer() {
@@ -136,7 +172,12 @@ function spawnEnemy() {
 }
 
 function draw() {
-  if (!p || !bg) return
+  if (!gameRunning || !p || !bg) return
+  if (p.hp <= 0) {
+    gameOver()
+    return
+  }
+
   background(bg)
   /*
   b.update()
@@ -195,7 +236,7 @@ for(let e of enemies) {
   let maxW = 450
   let w = constrain(currentHoldTime/2, 0, maxW)
   let h = 30
-  fill(255, 255, 255,70)
+  fill(255, 255, 255,glass)
   strokeWeight(1.5)
   stroke("white")
   //stroke((w==maxW && isHeld) ? "white" : "white")
@@ -206,16 +247,16 @@ for(let e of enemies) {
     drawingContext.shadowBlur = 10
     
     if (currentHoldTime/30 < 10) {
-      fill("#63e07e")
+      fill(99, 224, 126, glass)
       drawingContext.shadowColor = "#63e07e"
     } else if (currentHoldTime/30 >= 10 && currentHoldTime/30 < 20) {
-      fill("#2cc978")
+      fill(44, 201, 120, glass)
       drawingContext.shadowColor = "#2cc978"
     } else if (currentHoldTime/30 >= 20 && currentHoldTime/30 < 30) {
-      fill("#26b190")
+      fill(38, 177, 144, glass)
       drawingContext.shadowColor = "#26b190"
     } else if (currentHoldTime/30 >= 30) {
-      fill("#03a199")
+      fill(3, 161, 153, glass)
       drawingContext.shadowColor = "#03a199"
     }
     //fill((w==maxW) ? "#016d01" : "#318631")
@@ -228,7 +269,7 @@ let hpMaxW = 250
 let hpW = constrain(p.hp / 100 * hpMaxW, 0, hpMaxW)   // 100 = starting hp
 let hpY = 75                                           // just below the charge bar
 
-fill(255, 255, 255, 70)
+fill(255, 255, 255, glass)
 strokeWeight(1.5)
 stroke("white")
 rect(windowWidth/2 - hpMaxW/2, hpY, hpMaxW, h)
@@ -238,16 +279,22 @@ if (hpW > 0) {
   drawingContext.shadowBlur = 10
   drawingContext.shadowColor = "lightgreen"
   if (p.hp > 75) {
-    fill("#318631")
+    fill(49, 134, 49, 150)
+    drawingContext.shadowColor = "#318631"
   } else if (p.hp < 75 && p.hp >= 50) {
-    fill("#a1b915")
-  } else if (p.hp < 50 && p.hp > 25) {
-    fill("#b98215")
-  } else {
-    fill("#b93615")
+    fill(161, 185, 21, 150)
+    drawingContext.shadowColor = "#a1b915"
+  } else if (p.hp < 50 && p.hp >= 25) {
+    fill(185, 130, 21, 150)
+    drawingContext.shadowColor = "#b98215"
+  } else if (p.hp < 25 && p.hp > 0){
+    fill(185, 54, 21, 150)
+    drawingContext.shadowColor = "#b93615"
   }
   rect(windowWidth/2 - hpW/2, hpY, hpW, h)
   pop()
+} else {
+  gameOver()
 }
 
   if (millis() - lastSpawn > spawnInterval) {
@@ -268,4 +315,75 @@ function windowResized() {
   p.position.y = windowHeight/2
 }
 
+function gameOver() {
+  gameRunning = false
+  stopTimer()
+  isHeld = false
+  keys = {}
+  
+  document.getElementById("stat-time-num").textContent = seconds
+  document.getElementById("stat-kills-num").textContent = kills
+  document.getElementById("stat-score-num").textContent = score
+
+  select('#saveBtn').removeAttribute('disabled')
+  select('#saveBtn').html('save')
+  select('#nameInput').value('')
+  shiftPage("#page3")
+  
+}
+
+function saveScore() {
+  const name = select("#nameInput").value().trim()
+  if (name === '') {
+        select('#nameInput').attribute('placeholder', 'Write your name first!')
+        return
+  }
+  if (score <= 0) {
+    select('#nameInput').attribute('placeholder', 'Score something first!')
+    return
+  }
+    
+    scoresRef.add({ name: name, seconds: seconds, kills: kills, score: score }).then(() => {
+        select('#saveBtn').attribute('disabled', true)
+        select('#saveBtn').html('Saved!')
+    })
+}
+
+function loadHighScores() {
+  scoresRef.orderBy('score', 'desc').limit(10).onSnapshot(snap => {
+    const list = select('#highscore-list')
+    list.html('')
+
+    if (snap.empty) {
+      const li = createElement('li', 'No scores yet')
+      li.addClass('hs-empty')
+      list.child(li)
+      return
+    }
+
+    let rank = 1
+    snap.forEach(doc => {
+      const d = doc.data()
+      const li = createElement('li')
+
+      const rankSpan = createElement('span', rank++ + '.')
+      rankSpan.addClass('hs-rank')
+
+      const nameSpan = createElement('span')
+      nameSpan.addClass('hs-name')
+      nameSpan.elt.textContent = d.name      // textContent, so a name can't inject HTML
+
+      const scoreSpan = createElement('span', d.score)
+      scoreSpan.addClass('hs-score')
+
+      li.child(rankSpan)
+      li.child(nameSpan)
+      li.child(scoreSpan)
+      list.child(li)
+    })
+  }, err => {
+    console.error(err)
+    select('#highscore-list').html('<li class="hs-empty">Could not load scores</li>')
+  })
+}
 
