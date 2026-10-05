@@ -22,6 +22,8 @@ function setup(){
 
         }, 3000)
     })
+    
+    
 
 
     canvas.addEventListener("mousemove", (e) => {
@@ -58,3 +60,13 @@ function paint() {
         radius: Number(document.getElementById("radiusScale").value)
     }))
 }
+/*
+let i = 1
+led()
+function led() {
+    i++
+    client.publish('ddu-farver', i)
+    if (i == 30) i = 1
+    led()
+}
+*/

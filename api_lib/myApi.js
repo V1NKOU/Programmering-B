@@ -21,13 +21,11 @@ function doubleEverything(tag="body") {
 }
 
 function shiftPage(newPage){
-    pages_with_show = selectAll(".page")
-
+    let pages_with_show = selectAll(".page")
     for (let i = 0; i < pages_with_show.length; i++) {
         pages_with_show[i].removeClass('show')
     }
-
-    document.getElementById(newPage).classList.add('show')
+    document.querySelector(newPage).classList.add('show')  // works with '#page1'
 }
 
 
@@ -44,11 +42,11 @@ function meatSpin(seconds=10) {
 function mommify() {
     const leftBanner = document.createElement('div');
     leftBanner.classList.add('banner', 'left-banner');
-    leftBanner.innerHTML = `<img src="/api_lib/assets/img1.png" alt="spicyPic">`;
+    leftBanner.innerHTML = `<img src="../api_lib/assets/img1.png" alt="spicyPic">`;
 
     const rightBanner = document.createElement('div');
     rightBanner.classList.add('banner', 'right-banner');
-    rightBanner.innerHTML = `<img src="/api_lib/assets/img2.png" alt="anotherSpicyPic">`;
+    rightBanner.innerHTML = `<img src="../api_lib/assets/img2.png" alt="anotherSpicyPic">`;
 
     document.body.append(leftBanner, rightBanner);
     document.body.classList.add('mommified');
@@ -81,3 +79,27 @@ function createCard(title="", species="", image="") {
     `
 }
 
+function startTimer(from, to, corner = 'top-right', callback, bg) {
+    selectAll('.timer').map(el => el.remove())
+    var timer = createDiv(from)
+    timer.addClass('timer')
+    timer.addClass(corner)
+    if (bg) timer.style('background-image', 'url(' + bg + ')')
+
+    // Skal vi tælle op eller ned?
+    var step = from < to ? 1 : -1
+    var now = from
+
+    var tick = setInterval(() => {
+        now += step
+        timer.html(now)
+
+        // Er vi i mål?
+        if (now === to) {
+            clearInterval(tick)
+            callback(now)
+        }
+    }, 1000)
+
+    return timer
+}

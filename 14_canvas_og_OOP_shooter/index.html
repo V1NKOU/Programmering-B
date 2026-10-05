@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super-Simon Redder Galaksen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+        integrity="sha512-EZLkOqwILORob+p0BXZc+Vm3RgJBOe1Iq/0fiI7r/wJgzOFZMlsqTa29UEl6v6U6gsV4uIpsNZoV32YZqrCRCQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/api_lib/myApiStyles.css">
+    <link rel="stylesheet" href="index.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/5.15.2/mqtt.min.js"
+        integrity="sha512-3kmSDJDp+Sk6XIt2AAkhFUrdlBwtWf6eFuksz407qMKcV/d1xfvsF/o4glnPWX/P3/X4yQJ2EBHEBTaWoXGf1g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.jsdelivr.net/npm/p5@1.11.10/lib/p5.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/p5.sound@0.4.1/dist/p5.sound.min.js"></script>
+        <link rel="icon" type="image/x-icon" href="./assets/simonFaces/1.png">
+</head>
+
+<body>
+    <div id="toast"></div>
+    <main>
+        <div class="page" id="page1">  
+            <div id="top-left-ui">
+                <div id="time">
+                    <h1 class="ui-text">Time: </h1>
+                    <h1 class="num" id="timeNum">0</h1>
+                </div>
+                <div id="score">
+                    <h1 class="ui-text">Score: </h1>
+                    <h1 class="num" id="scoreNum">0</h1>
+                </div>
+            </div>
+    </div>
+</main>
+    <script src="../api_lib/myApi.js"></script>
+    <script src="../api_lib/myClasses.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore-compat.js"></script>
+    <script src="../api_lib/firebase.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
